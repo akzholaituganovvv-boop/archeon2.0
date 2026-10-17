@@ -1,0 +1,3765 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тас дәуірі — ARCHEON</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --bg: #11120f;
+      --panel: #191914;
+      --gold: #e8c77e;
+      --gold2: #d9b66d;
+      --line: #80663b;
+      --text: #f2e6ce;
+      --muted: #c9bfad;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); }
+
+    .back-row {
+      padding: 14px 6%;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 11px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 5px;
+      background: #dfbb70;
+      color: #17140e;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .stone-hero {
+    min-height: 300px;
+    padding: 45px 5.7%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(17, 18, 15, 0.92) 0%,
+            rgba(17, 18, 15, 0.65) 42%,
+            rgba(17, 18, 15, 0.12) 100%
+        ),
+        url("banner.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #765b2d;
+}
+
+.stone-hero h1 {
+    color: #e9bd68;
+    font-family: Georgia, serif;
+    font-size: clamp(48px, 5vw, 76px);
+    line-height: 1.1;
+}
+
+.stone-hero h2 {
+    color: #f5ead5;
+    font-family: Georgia, serif;
+    font-size: clamp(20px, 2.5vw, 30px);
+    margin-top: 8px;
+}
+
+.stone-hero p {
+    max-width: 750px;
+    color: #e0d8c9;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .stone-hero {
+        min-height: 260px;
+        padding: 35px 6%;
+        background-position: center;
+    }
+}
+
+    .eyebrow {
+      color: var(--gold2);
+      letter-spacing: 4px;
+      font-size: 12px;
+    }
+
+    .stone-hero h1 {
+      color: var(--gold);
+      font: bold clamp(48px, 7vw, 86px)/1 Georgia, serif;
+      margin: 14px 0;
+    }
+
+    .stone-hero h2 {
+      font: bold clamp(20px, 2.5vw, 28px) Georgia, serif;
+      margin: 0 0 12px;
+    }
+
+    .stone-hero p {
+      max-width: 610px;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .research-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(285px, 4fr);
+      max-width: 1600px;
+      margin: auto;
+      align-items: start;
+    }
+
+    .main-column {
+      min-width: 0;
+      padding: 30px 30px 55px 6%;
+    }
+
+    .side-column {
+      min-width: 0;
+      padding: 25px 6% 40px 25px;
+      border-left: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--gold);
+      font: bold clamp(23px, 2.2vw, 30px) Georgia, serif;
+      margin: 0 0 18px;
+    }
+
+    .heading-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--gold2);
+      flex-shrink: 0;
+    }
+
+    .overview-grid {
+    max-height: 460px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #a88443 #191914;
+}
+
+/* Chrome және Edge браузерлеріндегі сырғытпа */
+.overview-grid::-webkit-scrollbar {
+    width: 7px;
+}
+
+.overview-grid::-webkit-scrollbar-track {
+    background: #191914;
+}
+
+.overview-grid::-webkit-scrollbar-thumb {
+    background: #a88443;
+    border-radius: 6px;
+}
+
+.overview-grid::-webkit-scrollbar-thumb:hover {
+    background: #e9bd68;
+}
+
+.overview-text {
+  width: 100%;
+  max-width: none;
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 14px;
+  margin: 0;
+}
+
+    .photo-card {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      overflow: hidden;
+      background: #0c0c0a;
+    }
+
+    .photo-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .photo-card figcaption {
+      padding: 9px 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .mini-btn {
+      margin: 0 10px 10px;
+      background: #302719;
+      border: 1px solid var(--line);
+      color: var(--gold);
+      padding: 7px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    
+   /* Тас дәуірінің кезеңдерін бүкіл экранның ортасына қою */
+.timeline-section {
+  width: 100vw;
+  max-width: 100vw;
+  margin-top: 32px;
+  margin-left: calc((100% - 100vw) / 2);
+  padding: 0 6% 30px;
+  box-sizing: border-box;
+}
+
+/* Тақырыпты экранның дәл ортасына қою */
+.timeline-section .section-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto 24px;
+}
+
+/* Кезеңдер блогын экранның ортасына орналастыру */
+.timeline-section {
+  width: 100%;
+  max-width: 100%;
+  margin: 32px 0 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Тақырыпты сол жақ және оң жақ бағанды қоса,
+   бүкіл экранның ортасына туралау */
+.timeline-section .section-heading {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+/* Карточкалар экраннан шықпасын */
+.timeline-section .timeline {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.timeline-section .period-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Телефонға бейімдеу */
+@media (max-width: 650px) {
+  .timeline-section .section-heading {
+    font-size: 23px;
+  }
+}
+.timeline {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+}
+
+    .period-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: linear-gradient(110deg, #211e16, #12120f);
+    }
+
+    .period-toggle {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) minmax(110px, 30%) 24px;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      padding: 12px;
+      text-align: left;
+      background: transparent;
+      color: var(--text);
+      border: 0;
+      cursor: pointer;
+    }
+
+    .period-num {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--gold2);
+      border-radius: 50%;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .period-copy strong {
+      display: block;
+      color: var(--gold);
+      font: bold 20px Georgia, serif;
+      margin-bottom: 5px;
+    }
+
+    .period-copy small {
+      color: var(--gold2);
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .period-copy span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      display: block;
+    }
+
+    .period-toggle img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .period-chevron {
+      color: var(--gold);
+      font-size: 23px;
+      transition: transform .2s;
+    }
+
+    .period-card.open .period-chevron { transform: rotate(180deg); }
+
+    .period-detail {
+      display: none;
+      padding: 0 20px 20px 72px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .period-card.open .period-detail { display: block; }
+
+    .period-detail h4 {
+      color: var(--gold);
+      margin: 14px 0 6px;
+    }
+
+    .period-detail ul { padding-left: 20px; }
+
+    .side-title {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--gold);
+      font: bold 21px Georgia, serif;
+      margin: 0 0 8px;
+    }
+
+    .side-intro {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+
+    .topic-list { display: grid; gap: 8px; }
+
+    .topic-button {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) 16px 70px;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      text-align: left;
+      background: linear-gradient(100deg, #211e16, #141410);
+      border: 1px solid #6b512b;
+      border-radius: 7px;
+      color: var(--text);
+      cursor: pointer;
+      transition: .2s;
+      min-width: 0;
+    }
+
+    .topic-button:hover,
+    .topic-button:focus-visible {
+      border-color: var(--gold);
+      background: #302719;
+    }
+
+    .topic-icon {
+      color: var(--gold);
+      font-size: 25px;
+      text-align: center;
+    }
+
+    .topic-button strong {
+      display: block;
+      color: var(--gold);
+      font: bold 15px Georgia, serif;
+    }
+
+    .topic-button small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    .topic-arrow { color: var(--gold); font-size: 20px; }
+
+    .topic-button img {
+      width: 70px;
+      height: 46px;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+
+
+/* Ғылыми деректер бөлімі */
+.source-box {
+  position: relative;
+  width: 100vw;
+  margin-top: 22px;
+  margin-left: calc((100% - 100vw) / 2);
+  padding: 18px 6% 0;
+  border-top: 1px solid var(--line);
+}
+
+/* Тақырыпты экран ортасына қою */
+.source-box .section-heading {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Мәтінді оқуға ыңғайлы енде сақтау */
+.source-box p {
+  max-width: 1100px;
+  margin: 12px auto;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.source-box a {
+  color: var(--gold);
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+    .source-box p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .source-box a { color: var(--gold); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.78);
+      padding: 24px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal {
+      width: min(900px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #171711;
+      border: 1px solid var(--gold2);
+      border-radius: 12px;
+      box-shadow: 0 20px 70px #000;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .modal-header h2 {
+      color: var(--gold);
+      font: bold 26px Georgia, serif;
+      margin: 0;
+    }
+
+    .modal-close {
+      border: 0;
+      background: transparent;
+      color: var(--gold);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .modal-content {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: minmax(180px, 38%) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    .modal-content > img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+    }
+
+    .modal-content p,
+    .modal-content li {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .modal-content h3 { color: var(--gold); margin: 0 0 8px; }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    footer .logo {
+      color: var(--gold);
+      text-decoration: none;
+      font: bold 25px Georgia, serif;
+    }
+
+    @media (max-width: 750px) {
+      .research-layout { grid-template-columns: minmax(0, 1fr); }
+      .main-column { padding: 28px 5%; }
+      .side-column {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        padding: 25px 5%;
+      }
+      .topic-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 650px) {
+      .stone-hero { min-height: 330px; padding: 40px 6%; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .period-toggle { grid-template-columns: 40px minmax(0, 1fr) 22px; }
+      .period-toggle img { display: none; }
+      .period-copy strong { font-size: 17px; }
+      .period-detail { padding: 0 15px 18px 55px; }
+      .topic-list, .gallery-grid { grid-template-columns: 1fr; }
+      .modal-backdrop { padding: 10px; }
+      .modal-content { grid-template-columns: 1fr; padding: 16px; }
+      .modal-content > img { max-height: 220px; }
+      .modal-header h2 { font-size: 21px; }
+    }
+
+    
+
+/* ===============================
+   ҚАЛҚЫМАЛЫ ТЕРЕЗЕДЕГІ ГАЛЕРЕЯ
+================================ */
+
+.modal-gallery {
+  min-width: 0;
+  width: 100%;
+}
+
+.gallery-image-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.gallery-image-wrap img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 42px;
+  border: 1px solid var(--gold2);
+  border-radius: 5px;
+  background: rgba(17, 18, 15, 0.88);
+  color: var(--gold);
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.gallery-arrow:hover {
+  background: #302719;
+}
+
+.gallery-prev {
+  left: 8px;
+}
+
+.gallery-next {
+  right: 8px;
+}
+
+.gallery-caption {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  margin-top: 9px;
+}
+
+.gallery-info {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: left;
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 164, 92, 0.25);
+  border-radius: 10px;
+}
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: #62543b;
+  cursor: pointer;
+  padding: 0;
+}
+
+.gallery-dot.active {
+  background: var(--gold);
+}
+
+
+/* ===============================
+   ҚАЛҚЫМАЛЫ ТЕРЕЗЕНІҢ ОРНАЛАСУЫ
+================================ */
+
+.modal-content {
+  display: grid;
+  grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+  align-items: start;
+  gap: 22px;
+}
+
+.modal-gallery {
+  width: 100%;
+}
+
+.modal-content > img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+}
+
+
+/* ===============================
+   ЗЕРТТЕУ МӘЗІРІ
+================================ */
+
+.topic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.topic-button {
+  width: 100%;
+  min-width: 0;
+  min-height: 88px;
+  padding: 14px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(201, 164, 92, 0.10),
+    rgba(255, 255, 255, 0.025)
+  );
+
+  border: 1px solid rgba(201, 164, 92, 0.48);
+  border-radius: 13px;
+
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.topic-button:hover {
+  background: rgba(201, 164, 92, 0.14);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.topic-icon {
+  width: 48px;
+  height: 54px;
+  flex: 0 0 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--gold);
+}
+
+.topic-icon svg {
+  width: 42px;
+  height: 42px;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s ease;
+}
+
+.topic-button:hover .topic-icon svg {
+  transform: scale(1.08);
+}
+
+.topic-button > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.topic-button strong {
+  display: block;
+  color: var(--gold);
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+.topic-button small {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.topic-arrow {
+  color: var(--gold);
+  font-size: 29px;
+  line-height: 1;
+  flex: 0 0 auto;
+  transition: transform 0.25s ease;
+}
+
+.topic-button:hover .topic-arrow {
+  transform: translateX(3px);
+}
+
+
+/* ===============================
+   ТАС ДӘУІРІНІҢ КЕЗЕҢДЕРІ
+================================ */
+
+#periods {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 40px 0 0;
+  padding: 0 0 30px;
+
+  box-sizing: border-box;
+}
+
+#periods .section-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  margin: 0 0 28px;
+  padding: 0;
+
+  color: var(--gold);
+  text-align: center;
+
+  position: static;
+  transform: none;
+  box-sizing: border-box;
+}
+
+#periods .timeline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+
+  box-sizing: border-box;
+}
+
+#periods .period-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    110deg,
+    #211e16,
+    #12120f
+  );
+}
+
+.period-toggle {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 110px 24px;
+  gap: 12px;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+
+  text-align: left;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  cursor: pointer;
+}
+
+.period-num {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--gold2);
+  border-radius: 50%;
+
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.period-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.period-copy strong {
+  display: block;
+  color: var(--gold);
+  font: bold 20px Georgia, serif;
+  margin-bottom: 5px;
+}
+
+.period-copy small {
+  display: block;
+  color: var(--gold2);
+  margin-bottom: 7px;
+}
+
+.period-copy > span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* Кезеңдердің алтын түсті SVG белгішелері */
+
+.period-icon {
+  width: 110px;
+  height: 100px;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--gold);
+  background: rgba(201, 164, 92, 0.045);
+  border: 1px solid rgba(201, 164, 92, 0.25);
+  border-radius: 8px;
+}
+
+.period-icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+.period-chevron {
+  color: var(--gold);
+  font-size: 23px;
+  transition: transform 0.2s ease;
+}
+
+.period-card.open .period-chevron {
+  transform: rotate(180deg);
+}
+
+
+/* Кезең туралы толық ақпарат */
+
+.period-detail {
+  display: none;
+  padding: 0 20px 20px 72px;
+
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 14px;
+}
+
+.period-card.open .period-detail {
+  display: block;
+}
+
+.period-detail h3,
+.period-detail h4 {
+  color: var(--gold);
+  margin: 18px 0 8px;
+}
+
+.period-detail h3 {
+  font: bold 22px Georgia, serif;
+}
+
+.period-detail h4 {
+  font-size: 16px;
+}
+
+.period-detail p {
+  margin: 10px 0;
+}
+
+.period-detail ul {
+  padding-left: 20px;
+}
+
+.period-detail li {
+  margin-bottom: 7px;
+}
+
+
+/* ===============================
+   ҒЫЛЫМИ ДЕРЕКТЕР
+================================ */
+
+.source-box {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+
+  margin-top: 22px;
+  padding: 18px 0 0;
+
+  border-top: 1px solid var(--line);
+  box-sizing: border-box;
+}
+
+.source-box .section-heading {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.source-box p {
+  max-width: 1100px;
+  margin: 12px auto;
+
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.source-box a {
+  color: var(--gold);
+}
+
+
+/* ===============================
+   БЕТТІҢ ЖАЛПЫ ӨЛШЕМДЕРІ
+================================ */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.research-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(285px, 4fr);
+
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.main-column {
+  min-width: 0;
+}
+
+.side-column {
+  min-width: 0;
+  align-self: start;
+}
+
+
+/* ===============================
+   ТЕЛЕФОНҒА БЕЙІМДЕУ
+================================ */
+
+@media (max-width: 750px) {
+  .research-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main-column {
+    padding: 28px 5%;
+  }
+
+  .side-column {
+    padding: 25px 5%;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .topic-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topic-button {
+    min-height: 78px;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .topic-icon {
+    width: 40px;
+    height: 46px;
+    flex-basis: 40px;
+  }
+
+  .topic-icon svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .topic-button strong {
+    font-size: 16px;
+  }
+
+  .topic-button small {
+    font-size: 12px;
+  }
+
+  #periods {
+    margin-top: 32px;
+  }
+
+  #periods .section-heading {
+    font-size: 23px;
+    margin-bottom: 22px;
+  }
+
+  .period-toggle {
+    grid-template-columns: 40px minmax(0, 1fr) 60px 18px;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .period-icon {
+    width: 60px;
+    height: 66px;
+  }
+
+  .period-icon svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .period-copy strong {
+    font-size: 17px;
+  }
+
+  .period-copy > span {
+    font-size: 11px;
+  }
+
+  .period-detail {
+    padding: 0 15px 18px;
+  }
+
+  .period-detail h3 {
+    font-size: 19px;
+  }
+
+  .period-detail h4 {
+    font-size: 15px;
+  }
+
+  .source-box p {
+    font-size: 12px;
+  }
+
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+  .modal-content {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .modal-content > img {
+    max-height: 220px;
+  }
+
+  .modal-header h2 {
+    font-size: 21px;
+  }
+
+  .gallery-image-wrap img {
+    height: 230px;
+  }
+}
+
+
+/* ӨТЕ ТАР ЭКРАНДАР */
+
+@media (max-width: 420px) {
+  .period-toggle {
+    grid-template-columns: 34px minmax(0, 1fr) 18px;
+    gap: 8px;
+  }
+
+  .period-num {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .period-icon {
+    display: none;
+  }
+
+  .period-copy strong {
+    font-size: 16px;
+  }
+
+  .period-copy small {
+    font-size: 12px;
+  }
+
+  .period-copy > span {
+    font-size: 11px;
+  }
+}
+
+
+
+
+/* Зерттеу мәзірі жоғарыда, кезеңдер төменде */
+.research-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Жоғарғы негізгі мәтін */
+.main-column {
+  width: 100%;
+  max-width: 1400px;
+  min-width: 0;
+  padding: 28px 4%;
+  box-sizing: border-box;
+}
+
+/* Кезеңдер блогын ортаға орналастыру */
+#periods {
+  display: block;
+  width: 100%;
+  max-width: 1200px;
+  min-width: 0;
+  margin: 45px auto 0;
+  padding: 0 20px 35px;
+  box-sizing: border-box;
+}
+
+#periods .section-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 30px;
+  text-align: center;
+  position: static;
+  transform: none;
+  box-sizing: border-box;
+}
+
+#periods .timeline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Зерттеу мәзірі кезеңдерден кейін толық енмен */
+.side-column {
+  order: 2;
+  width: 100%;
+  max-width: 1200px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 30px 4%;
+  border-left: 0;
+  border-top: 1px solid var(--line);
+  box-sizing: border-box;
+}
+
+.topic-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+/* Тар экрандар */
+@media (max-width: 650px) {
+  .main-column {
+    padding: 22px 16px;
+  }
+
+  #periods {
+    padding: 0;
+    margin-top: 30px;
+  }
+
+  #periods .section-heading {
+    font-size: 23px;
+  }
+
+  .side-column {
+    padding: 24px 16px;
+  }
+
+  .topic-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* Зерттеу мәзірінің карточкалары бір бағанда */
+.topic-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  gap: 12px;
+}
+
+.topic-button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* 60/40 ЕКІ БАҒАНДЫҚ ОРНАЛАСУДЫ ҚАЛПЫНА КЕЛТІРУ */
+.research-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 60fr) minmax(0, 40fr) !important;
+  align-items: start;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.main-column {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0;
+  padding: 28px 4%;
+  box-sizing: border-box;
+}
+
+.side-column {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0;
+  margin: 0;
+  padding: 25px 22px;
+  border-top: 0;
+  border-left: 1px solid var(--line);
+  box-sizing: border-box;
+}
+
+/* Зерттеу карточкалары бірінің астына бірі */
+.topic-list {
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 12px;
+}
+
+.topic-button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Кезеңдер тек сол жақ бағанның ішінде қалады */
+#periods {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 40px 0 0;
+  padding: 0 0 30px;
+  box-sizing: border-box;
+}
+
+#periods .timeline {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Тек телефонда бағандар тігінен орналасады */
+@media (max-width: 750px) {
+  .research-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .side-column {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* Мәтіннің төменгі шекарадан асып кетпеуі */
+.research-layout {
+    align-items: stretch;
+}
+
+.main-column {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.side-column {
+    min-width: 0;
+}
+
+/* Ұзын мәтінді жасыру */
+.overview-grid {
+    position: relative;
+    overflow: hidden;
+    max-height: 460px;
+    transition: max-height 0.4s ease;
+}
+
+/* Толық мәтінді ашу */
+.overview-grid.expanded {
+    max-height: none;
+    overflow: visible;
+}
+
+.read-more-btn {
+    display: block;
+    margin: 12px 0 20px;
+    padding: 9px 16px;
+    background: #252219;
+    border: 1px solid #765b2d;
+    border-radius: 6px;
+    color: #e9bd68;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.read-more-btn:hover {
+    background: #30291b;
+}
+
+
+.overview-grid {
+    display: block !important;
+    height: 560px;
+    max-height:560px;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+    padding-right: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #d9b66d #191914;
+}
+
+.overview-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.overview-grid::-webkit-scrollbar-track {
+    background: #191914;
+}
+
+.overview-grid::-webkit-scrollbar-thumb {
+    background: #d9b66d;
+    border-radius: 8px;
+}
+
+.ancient-sources-card {
+    margin-top: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, #211f18, #151510);
+    border: 1px solid #765b2d;
+    border-radius: 10px;
+}
+
+.ancient-sources-card h3 {
+    color: #e9bd68;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.ancient-sources-card p {
+    color: #c9bfad;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.ancient-sources-card a {
+    display: block;
+    padding: 10px 0;
+    color: #f2e6ce;
+    text-decoration: none;
+    border-top: 1px solid #39352b;
+    font-size: 13px;
+}
+
+.ancient-sources-card a:hover {
+    color: #e9bd68;
+}
+
+.copyright-disclaimer {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 0;
+    padding: 14px 18px;
+    color: #ff5c5c;
+    background: rgba(255, 40, 40, 0.06);
+    border-top: 1px solid rgba(255, 70, 70, 0.4);
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+
+
+/* ==================================
+   ПАЛЕОЛИТ КАРТОЧКАСЫНЫҢ ПРОПОРЦИЯСЫ
+================================== */
+
+/* Карточка мазмұнға қарай биіктесін */
+.period-card {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Жоғарғы тақырып пен белгішелер */
+.period-toggle {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    align-items: center;
+    grid-template-columns: 42px minmax(0, 1fr) 90px 22px;
+    gap: 12px;
+}
+
+/* Ұзын тақырыптар мен мәтіндер */
+.period-copy,
+.period-detail {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.period-copy strong {
+    line-height: 1.4;
+}
+
+.period-copy > span {
+    line-height: 1.6;
+}
+
+/* Толық ақпараттың орналасуы */
+.period-detail {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    line-height: 1.8;
+    padding: 0 24px 24px 72px;
+}
+
+.period-detail h3,
+.period-detail h4 {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.period-detail p,
+.period-detail li {
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* Ішкі түрлі түсті блоктар экраннан шықпасын */
+.period-detail > div {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Телефонға бейімдеу */
+@media (max-width: 650px) {
+    .period-toggle {
+        grid-template-columns: 36px minmax(0, 1fr) 18px;
+        gap: 9px;
+        padding: 10px;
+    }
+
+    .period-icon {
+        display: none;
+    }
+
+    .period-detail {
+        padding: 0 14px 18px;
+        font-size: 13px;
+    }
+
+    .period-detail h3 {
+        font-size: 19px;
+    }
+
+    .period-detail h4 {
+        font-size: 15px;
+    }
+
+    .period-detail > div {
+        padding: 12px !important;
+    }
+}
+
+
+/* ARCHEON — Археологиялық жәдігерлер галереясы */
+.artifact-gallery {
+  width: 100%;
+  min-width: 0;
+  margin-top: 22px;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #f2ead9;
+  background: linear-gradient(145deg, #1c1a14, #11110f);
+  border: 1px solid #69542d;
+  border-radius: 12px;
+}
+
+.artifact-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.artifact-heading-icon {
+  color: #e5bf68;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.artifact-heading h2 {
+  margin: 0;
+  color: #e5bf68;
+  font-family: Georgia, serif;
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.4;
+}
+
+.artifact-heading p {
+  margin: 5px 0 0;
+  color: #c9c0ad;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.artifact-viewer {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 38px;
+  align-items: center;
+  gap: 9px;
+}
+
+.artifact-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 42px;
+  padding: 0;
+  color: #e5bf68;
+  background: #292319;
+  border: 1px solid #806633;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.artifact-arrow:hover {
+  color: #11110f;
+  background: #e5bf68;
+}
+
+.artifact-image-wrap {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #29251c;
+  border: 1px solid #554629;
+  border-radius: 9px;
+}
+
+.artifact-image-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity .2s;
+}
+
+.artifact-period {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 6px 9px;
+  color: #f1d58d;
+  background: rgba(17, 17, 15, .88);
+  border: 1px solid #806633;
+  border-radius: 5px;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.artifact-caption {
+  padding: 14px 3px 4px;
+  text-align: center;
+}
+
+.artifact-caption h3 {
+  margin: 0 0 7px;
+  color: #e5bf68;
+  font-family: Georgia, serif;
+  font-size: 20px;
+}
+
+.artifact-caption p {
+  margin: 0;
+  color: #d0c8b9;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.artifact-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #413722;
+}
+
+#artifactCounter {
+  color: #d9b76a;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.artifact-dots {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.artifact-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  background: #5a503d;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.artifact-dot.active {
+  width: 22px;
+  background: #e5bf68;
+  border-radius: 5px;
+}
+
+@media (max-width: 650px) {
+  .artifact-gallery {
+    padding: 14px;
+    margin-top: 16px;
+  }
+
+  .artifact-heading {
+    gap: 8px;
+  }
+
+  .artifact-heading-icon {
+    font-size: 27px;
+  }
+
+  .artifact-heading p {
+    font-size: 10px;
+    letter-spacing: .7px;
+  }
+
+  .artifact-viewer {
+    grid-template-columns: 30px minmax(0, 1fr) 30px;
+    gap: 6px;
+  }
+
+  .artifact-arrow {
+    width: 30px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .artifact-caption h3 {
+    font-size: 18px;
+  }
+}
+
+
+/* Негізгі мәтін мен ғылыми деректер арасын реттеу */
+.main-column {
+  padding-bottom: 40px;
+}
+
+/* Кезеңдер мен жоғарғы мәтін арасындағы аралық */
+#periods {
+  margin-top: 50px;
+}
+
+/* Оң жақтағы жәдігерлер галереясы */
+.artifact-gallery {
+  margin-top: 150px;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="back-row">
+    <a class="back-button" href="explore.html">← Дәуірлерге оралу</a>
+  </div>
+
+  <section class="stone-hero">
+    <span class="eyebrow">ҚАЗАҚСТАННЫҢ ЕЖЕЛГІ ТАРИХЫ</span>
+    <h1>Тас дәуірі</h1>
+    <h2>Адамзаттың алғашқы қадамдары</h2>
+    <p>Ежелгі адамдардың өмірі, алғашқы еңбек құралдары, тұрақтары және Қазақстан аумағындағы археологиялық мұра.</p>
+  </section>
+
+  <div class="research-layout">
+    <main class="main-column">
+      <section>
+        <h2 class="section-heading">▤  Тас дәуірі — адамзат тарихының алғашқы кезеңі</h2>
+        <div class="overview-grid">
+          
+<div class="overview-text">
+
+  <h2 style="color:#d9b76a;font-size:28px;line-height:1.4;margin:0 0 16px;">
+    Тас дәуірі — адамзат тарихының бастауы
+  </h2>
+
+  <p>
+    <strong style="color:#e0c77d;">Тас дәуірі</strong> — адамзат тарихындағы
+    ең ұзақ әрі маңызды тарихи кезеңдердің бірі. Бұл дәуірде адамдар еңбек
+    құралдарын негізінен тастан жасап, табиғат жағдайларына бейімделіп өмір
+    сүрді. Тас дәуірі үш негізгі кезеңге бөлінеді: палеолит, мезолит және неолит.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0;">
+
+    <div style="background:linear-gradient(145deg,#302719,#1c1a14);border:1px solid #80662f;border-radius:12px;padding:17px;">
+      <div style="font-size:26px;margin-bottom:8px;">🪨</div>
+      <h3 style="color:#e0c77d;font-size:18px;margin:0 0 7px;">Палеолит</h3>
+      <p style="margin:0;font-size:14px;line-height:1.7;">Алғашқы адамдар, қарапайым тас құралдар, аңшылық пен терімшілік.</p>
+    </div>
+
+    <div style="background:linear-gradient(145deg,#302719,#1c1a14);border:1px solid #80662f;border-radius:12px;padding:17px;">
+      <div style="font-size:26px;margin-bottom:8px;">🏹</div>
+      <h3 style="color:#e0c77d;font-size:18px;margin:0 0 7px;">Мезолит</h3>
+      <p style="margin:0;font-size:14px;line-height:1.7;">Табиғи ортаға бейімделу, микролиттер және аңшылық тәсілдерінің дамуы.</p>
+    </div>
+
+    <div style="background:linear-gradient(145deg,#302719,#1c1a14);border:1px solid #80662f;border-radius:12px;padding:17px;">
+      <div style="font-size:26px;margin-bottom:8px;">🏺</div>
+      <h3 style="color:#e0c77d;font-size:18px;margin:0 0 7px;">Неолит</h3>
+      <p style="margin:0;font-size:14px;line-height:1.7;">Тас өңдеу технологияларының жетілуі, кейбір өңірлерде қыш жасау мен өндіруші шаруашылықтың дамуы.</p>
+    </div>
+
+  </div>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:26px 0 12px;">
+    1. Ежелгі адамдардың тұрмысы
+  </h3>
+
+  <p>
+    Палеолит кезеңінде алғашқы адамдар аңшылықпен және терімшілікпен
+    айналысып, күнделікті тіршілігіне қажетті қарапайым құралдарды
+    пайдаланды. Еңбек құралдары тастан, ағаштан және жануарлардың
+    сүйектерінен жасалды. Уақыт өте келе адамдар отты пайдалануды
+    меңгеріп, оны жылыну, қорғану және тамақ дайындау үшін қолданды.
+    Ежелгі адамдар үңгірлерді, табиғи баспаналарды және ашық тұрақтарды мекендеді.
+  </p>
+
+  <p>
+    Мезолит кезеңінде табиғи орта өзгеріп, адамдардың өмір сүру тәсілдері
+    біртіндеп жетілді. Бұл уақытта микролиттер деп аталатын ұсақ тас
+    құралдар көптеген археологиялық кешендерде кездеседі. Садақ пен
+    жебенің қолданылуы аңшылықтың тиімділігін арттырды.
+  </p>
+
+  <p>
+    Неолит кезеңінде тасты тегістеу, бұрғылау және жылтырату технологиялары
+    дамыды. Кейбір аймақтарда қыш ыдыстар жасалып, егіншілік пен мал
+    шаруашылығының алғашқы түрлері қалыптаса бастады. Адамдардың
+    тұрмысында еңбек бөлінісі мен шаруашылықтың жаңа тәсілдері маңызды
+    орын алды.
+  </p>
+
+  <div style="border-left:4px solid #b99a50;background:#211f17;padding:16px 18px;border-radius:7px;margin:22px 0;">
+    <h4 style="color:#e0c77d;margin:0 0 8px;">Тарихи ерекшелік</h4>
+    <p style="margin:0;">
+      Тас дәуірінің үш кезеңі адамдардың еңбек құралдары мен тіршілік
+      тәсілдеріндегі өзгерістерді көрсетеді. Алайда бұл өзгерістер
+      әр аймақта әртүрлі уақытта жүрді.
+    </p>
+  </div>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:28px 0 12px;">
+    2. Қазақстан аумағындағы тас дәуірі ескерткіштері
+  </h3>
+
+  <p>
+    Қазақстан аумағы тас дәуірінің археологиялық ескерткіштеріне бай
+    аймақтардың бірі болып саналады. Қаратау жотасындағы Бөріқазған
+    мен Тәңірқазған тұрақтары ежелгі адамдардың еңбек әрекетін зерттеуге
+    мүмкіндік береді. Маңғыстау өңіріндегі Шақпақата ескерткіші де
+    тас дәуірінің маңызды археологиялық нысандарының қатарына жатады.
+  </p>
+
+  <p>
+    Археологиялық зерттеулер барысында тас шапқылар, қырғыштар,
+    үшкіртастар және басқа да еңбек құралдары табылған. Ғалымдар
+    осы жәдігерлердің жасалу технологиясын, қолданылу мақсатын және
+    табылған қабаттарын зерттеу арқылы ежелгі адамдардың тіршілігін
+    қалпына келтіреді.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0;">
+
+    <div style="background:#242117;border:1px solid #594b2b;border-radius:10px;padding:15px;">
+      <h4 style="color:#e0c77d;margin:0 0 8px;">Бөріқазған</h4>
+      <p style="margin:0;font-size:14px;">Қаратау өңіріндегі ежелгі тас дәуірі ескерткіштерінің бірі.</p>
+    </div>
+
+    <div style="background:#242117;border:1px solid #594b2b;border-radius:10px;padding:15px;">
+      <h4 style="color:#e0c77d;margin:0 0 8px;">Тәңірқазған</h4>
+      <p style="margin:0;font-size:14px;">Ежелгі адамдардың еңбек құралдарын зерттеуге маңызды тұрақ.</p>
+    </div>
+
+    <div style="background:#242117;border:1px solid #594b2b;border-radius:10px;padding:15px;">
+      <h4 style="color:#e0c77d;margin:0 0 8px;">Шақпақата</h4>
+      <p style="margin:0;font-size:14px;">Маңғыстау өңіріндегі тас дәуірі археологиясымен байланысты ескерткіш.</p>
+    </div>
+
+  </div>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:28px 0 12px;">
+    3. Табиғи орта және ежелгі адамдардың шаруашылығы
+  </h3>
+
+  <p>
+    Тас дәуіріндегі адамдардың өмірі қоршаған ортаның климаттық
+    жағдайларымен тығыз байланысты болды. Мұз басу кезеңдерінде ауа
+    температурасының төмендеуі жануарлардың таралуына және адамдардың
+    қоныстану аймақтарына әсер етті. Адамдар тіршілік етуге қолайлы
+    жерлерді таңдап, өзен-көлдердің маңын және табиғи ресурстарға бай
+    аумақтарды жиі мекендеді. Мұндай орындар ауызсумен қамтамасыз
+    етіп, аңшылық пен терімшілікке мүмкіндік берді.
+  </p>
+
+  <p>
+    Ежелгі адамдардың негізгі азық көздеріне жабайы жануарлар, балықтар,
+    өсімдіктердің тамырлары, жемістер мен жаңғақтар жатты. Аңшылық пен
+    терімшілік бірін-бірі толықтыратын шаруашылық түрлері болды.
+    Ұжымдық әрекет адамдарға ірі жануарларды аулауға және табиғи
+    қауіптерден қорғануға көмектесті. Бірлесіп өмір сүру тәжірибе
+    алмасуға, еңбек құралдарын жетілдіруге және әлеуметтік байланыстардың
+    қалыптасуына ықпал етті.
+  </p>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:28px 0 12px;">
+    4. Еңбек құралдары және оларды зерттеу
+  </h3>
+
+  <p>
+    Тас құралдарын жасау барысында адамдар тастың қаттылығын, сыну
+    ерекшеліктерін және өңдеуге жарамдылығын ескерді. Қатты тау
+    жыныстарынан кесетін және шапқылайтын құралдар жасалса, ұсақ әрі
+    өткір жаңқалар басқа да еңбек әрекеттерінде қолданылды.
+  </p>
+
+  <p>
+    Құралдардың пішіні мен өңделу тәсілдері олардың қандай мақсатта
+    пайдаланылғанын анықтауға көмектеседі. Археологтар құралдардың
+    беткі іздерін зерттеу арқылы олардың аң терісін өңдеуге, ет кесуге
+    немесе ағаш өңдеуге қолданылғанын болжайды.
+  </p>
+
+  <ul style="padding-left:22px;line-height:1.9;">
+    <li><strong style="color:#e0c77d;">Тас шапқылар</strong> — шапқылау және басқа да еңбек әрекеттеріне пайдаланылған құралдар.</li>
+    <li><strong style="color:#e0c77d;">Қырғыштар</strong> — тері мен басқа материалдарды өңдеуге арналған бұйымдар.</li>
+    <li><strong style="color:#e0c77d;">Үшкіртастар</strong> — үшкір ұшы бар, қызметі нақты табылған орны мен пішініне қарай зерттелетін құралдар.</li>
+    <li><strong style="color:#e0c77d;">Тас жаңқалар</strong> — тас өңдеу кезінде алынған және кейде еңбек құралы ретінде пайдаланылған бөлшектер.</li>
+  </ul>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:28px 0 12px;">
+    5. Қазақстандағы тас дәуірін зерттеу
+  </h3>
+
+  <p>
+    Қазақстандағы тас дәуірі ескерткіштерін зерттеу еліміздің ежелгі
+    қоныстану тарихын анықтауда маңызды орын алады. Оңтүстік Қазақстандағы
+    Қаратау өңірі ерте палеолитке жататын археологиялық материалдарымен
+    ерекшеленеді. Орталық Қазақстан аумағынан да ежелгі адамдардың
+    еңбек құралдары мен тұрақтарына қатысты деректер табылған.
+    Шығыс және Батыс Қазақстандағы археологиялық нысандар өңірлердің
+    табиғи жағдайлары мен ежелгі тұрғындардың тіршілігін салыстырып
+    зерттеуге мүмкіндік береді.
+  </p>
+
+  <p>
+    Археологиялық материалдарды зерттеу кезінде ғалымдар табылған
+    заттардың орналасқан қабатын, жасалу технологиясын, шикізатын
+    және басқа олжалармен байланысын қарастырады. Бұл мәліметтер
+    ескерткіштердің мерзімін анықтауға және ежелгі адамдардың
+    тіршілік ерекшеліктерін түсіндіруге көмектеседі.
+  </p>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:28px 0 12px;">
+    6. Неолиттік төңкеріс және шаруашылықтың өзгеруі
+  </h3>
+
+  <p>
+    Неолит дәуіріндегі өзгерістер кейбір аймақтарда адамдардың табиғи
+    ресурстарды өндіру тәсілдеріне көшуімен сипатталды. Бұл үдеріс
+    ғылымда <strong style="color:#e0c77d;">неолиттік төңкеріс</strong>
+    деп аталады. Алайда егіншілік пен мал шаруашылығы барлық аймақта
+    бір мезгілде қалыптасқан жоқ. Олардың пайда болуы табиғи ортаға,
+    жергілікті ресурстарға және халықтардың тарихи даму ерекшеліктеріне
+    байланысты болды.
+  </p>
+
+  <p>
+    Тас дәуірінің соңына қарай адамдардың тұрмыстық тәжірибесі кеңейіп,
+    еңбек құралдарын жасау әдістері күрделене түсті. Қыш ыдыстар
+    кейбір қоғамдарда азық-түлікті сақтау мен дайындауға қолайлы жағдай
+    жасады. Тұрақтырақ қоныстардың қалыптасуы адамдардың күнделікті
+    өміріне өзгерістер енгізді. Табиғи ресурстарды тиімді пайдалану
+    және қоршаған ортаға бейімделу тәжірибесі ұрпақтан ұрпаққа беріліп отырды.
+  </p>
+
+  <h3 style="color:#d9b76a;font-size:21px;margin:28px 0 12px;">
+    7. Қазіргі археологиялық зерттеу әдістері
+  </h3>
+
+  <p>
+    Бүгінде тас дәуірінің ескерткіштері археологиялық қазбалар,
+    зертханалық талдау және ғылыми салыстыру әдістері арқылы зерттеледі.
+    Радиокөміртектік мерзімдеу әдісі органикалық материалдардың жасын
+    анықтауға мүмкіндік береді, ал тас құралдарының технологиялық
+    талдауы олардың қалай жасалғанын түсіндіреді.
+  </p>
+
+  <p>
+    Табылған заттардың орналасу қабаты мен өзара байланысын зерттеу
+    археологиялық деректердің тарихи маңызын анықтауға көмектеседі.
+    Осы зерттеулердің нәтижесінде ғалымдар ежелгі адамдардың еңбек
+    әрекеті, қоныстануы және мәдени дамуы туралы жаңа мәліметтерге
+    қол жеткізеді.
+  </p>
+
+  <div style="background:linear-gradient(145deg,#292318,#191812);border:1px solid #80662f;border-radius:12px;padding:20px;margin-top:26px;">
+    <h3 style="color:#e0c77d;font-size:21px;margin:0 0 12px;">
+      Қорытынды
+    </h3>
+    <p style="margin:0;line-height:1.9;">
+      Тас дәуірі — адамзаттың еңбек құралдарын жасап, табиғи ортаға
+      бейімделіп, шаруашылық тәжірибесін біртіндеп жетілдірген тарихи
+      кезеңі. Қазақстандағы Бөріқазған, Тәңірқазған және Шақпақата
+      сияқты ескерткіштер ежелгі адамдардың тіршілігін зерттеуге
+      мүмкіндік береді. Археологиялық олжаларды ғылыми әдістермен
+      зерттеу Қазақстанның ежелгі тарихын және адамзат өркениетінің
+      қалыптасу жолын тереңірек түсінуге көмектеседі.
+    </p>
+  </div>
+
+</div>
+
+        </div>
+
+       
+      </section>
+
+     
+
+<section class="timeline-section" id="periods">
+  <h2 class="section-heading">✧ Тас дәуірінің кезеңдері</h2>
+
+  <div class="timeline">
+
+    <!-- 1. ПАЛЕОЛИТ -->
+    <article class="period-card">
+      <button class="period-toggle" type="button" aria-expanded="false">
+        <span class="period-num">01</span>
+        <span class="period-copy">
+          <strong>Палеолит</strong>
+          <small>Ежелгі тас дәуірі</small>
+          <span>Алғашқы адамдар, тас құралдары, отты пайдалану және аңшылық.</span>
+        </span>
+        <span class="period-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 13 L34 7 L52 22 L45 43 L28 57 L11 39 Z"/>
+            <path d="M13 13 L29 28 L45 43 M29 28 L52 22"/>
+            <path d="M29 28 L22 43"/>
+          </svg>
+        </span>
+        <span class="period-chevron">⌄</span>
+      </button>
+
+      
+<div class="period-detail">
+
+  <h3 style="color:#e9bd68;">✦ Палеолит — адамзат тарихының бастауы</h3>
+
+  <p>
+    Палеолит — тас дәуірінің ең ұзақ кезеңі. Бұл уақытта адамзаттың
+    қалыптасуы, еңбек құралдарын жасау дағдыларының дамуы және табиғи
+    ортаға бейімделуі жүрді. Ежелгі адамдардың тіршілігі климатқа,
+    су көздеріне, жануарлар дүниесіне және табиғи ресурстарға тәуелді болды.
+    Олар қоршаған ортаны бақылап, тіршілік етуге қажетті тәжірибені
+    біртіндеп жинақтады.
+  </p>
+
+  <div style="background:rgba(233,189,104,0.08);border-left:4px solid #e9bd68;padding:14px 18px;border-radius:8px;margin:18px 0;">
+    <h4 style="color:#e9bd68;margin-top:0;">📌 Есте сақта!</h4>
+    <p style="margin-bottom:0;">
+      Палеолиттің басты ерекшеліктері — алғашқы тас құралдарын жасау,
+      аңшылық пен терімшілікке негізделген тіршілік және табиғи ортаға
+      бейімделу. Археологиялық олжалар осы кезеңнің тарихын зерттеуге
+      мүмкіндік береді.
+    </p>
+  </div>
+
+  <h4 style="color:#72c7d5;">1. Палеолиттің мерзімі мен кезеңдері</h4>
+
+  <p>
+    Палеолит атауы ежелгі тас дәуірін білдіреді. Ғылыми жіктеуде ол
+    төменгі, орта және жоғарғы палеолит болып бөлінеді. Бұл кезеңдердің
+    мерзімдері әр аймақтағы археологиялық деректерге байланысты
+    ерекшеленуі мүмкін.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0;">
+
+    <div style="background:rgba(114,199,213,0.09);border:1px solid #438c98;padding:14px;border-radius:9px;">
+      <h4 style="color:#72c7d5;margin-top:0;">Төменгі палеолит</h4>
+      <p>
+        Алғашқы тас құралдарының пайда болуы мен қарапайым тас өңдеу
+        тәсілдерінің қалыптасуы осы кезеңнің маңызды белгілеріне жатады.
+      </p>
+    </div>
+
+    <div style="background:rgba(126,201,143,0.08);border:1px solid #4c8e5c;padding:14px;border-radius:9px;">
+      <h4 style="color:#7ec98f;margin-top:0;">Орта палеолит</h4>
+      <p>
+        Тас өңдеу тәсілдері жетіліп, құралдардың пішіні мен жасалу
+        әдістерінде өзгерістер байқалды. Адамдар табиғи ортаға бейімделу
+        тәжірибесін жалғастырды.
+      </p>
+    </div>
+
+    <div style="background:rgba(210,154,225,0.08);border:1px solid #9465a4;padding:14px;border-radius:9px;">
+      <h4 style="color:#d29ae1;margin-top:0;">Жоғарғы палеолит</h4>
+      <p>
+        Еңбек құралдарының түрлері көбейіп, таспен қатар сүйек сияқты
+        материалдардан бұйым жасау кеңейді. Символдық мәдениеттің
+        дамуына қатысты деректер де зерттеледі.
+      </p>
+    </div>
+
+  </div>
+
+  <h4 style="color:#e9bd68;">2. Ежелгі адамдардың тіршілігі</h4>
+
+  <p>
+    Ежелгі адамдардың негізгі тіршілік көздері аңшылық пен терімшілік
+    болды. Олар жабайы жануарларды аулап, жеуге жарамды өсімдіктерді,
+    жемістерді, тамырларды және басқа да табиғи қорларды жинады.
+    Қорек табу үшін табиғи ортаны жақсы білу маңызды болды.
+  </p>
+
+  <p>
+    Адамдар су көздеріне, азық мол кездесетін жерлерге және табиғи
+    баспаналарға жақын аумақтарды таңдаған. Тіршілік жағдайы өзгерген
+    кезде басқа жерлерге қоныс аударуы мүмкін еді. Бірлесіп әрекет ету
+    аңшылықта, азық жинауда және табиғи қауіптерден қорғануда маңызды
+    рөл атқарды.
+  </p>
+
+  <div style="background:rgba(126,201,143,0.07);border-left:4px solid #7ec98f;padding:14px 18px;border-radius:8px;margin:18px 0;">
+    <h4 style="color:#7ec98f;margin-top:0;">🌿 Табиғатпен байланыс</h4>
+    <p style="margin-bottom:0;">
+      Ежелгі адамдардың өмірі қоршаған ортаға тікелей байланысты болды.
+      Климат, су көздері, өсімдіктер мен жануарлар олардың күнделікті
+      тіршілігіне және қоныс таңдауына әсер етті.
+    </p>
+  </div>
+
+  <h4 style="color:#72c7d5;">3. Еңбек құралдары және оларды жасау</h4>
+
+  <p>
+    Тас құралдары ежелгі адамдардың күнделікті тіршілігінде маңызды
+    орын алды. Құрал жасау үшін тасты жару, ұру, қырлау және өткір
+    жиек қалыптастыру тәсілдері қолданылды. Құралдың пішіні оның
+    қандай жұмысқа пайдаланылуы мүмкін екенін түсінуге көмектеседі.
+  </p>
+
+  <ul>
+    <li>
+      <strong style="color:#e9bd68;">Шапқылар:</strong>
+      ірі тас бұйымдар; олардың кейбірі кесу, шабу және басқа еңбек
+      әрекеттерінде қолданылған.
+    </li>
+    <li>
+      <strong style="color:#72c7d5;">Қырғыштар:</strong>
+      жануарлардың терісін және басқа материалдарды өңдеуге арналған
+      құралдар тобы.
+    </li>
+    <li>
+      <strong style="color:#7ec98f;">Тас жаңқалары:</strong>
+      тасты жару кезінде бөлініп шығатын бөліктер. Кейбір жаңқалар
+      өткір жиектеріне байланысты құрал ретінде пайдаланылған.
+    </li>
+    <li>
+      <strong style="color:#d29ae1;">Нуклеустер:</strong>
+      тас жаңқаларын бөліп алу үшін өңделген тас өзектері.
+    </li>
+  </ul>
+
+  <p>
+    Археологтар құралдардың пішінін, өлшемін, беткі іздерін және
+    табылған орнын зерттейді. Сонымен қатар құралдардың бір-біріне
+    ұқсастығы мен айырмашылығын салыстырады. Мұндай зерттеулер
+    ежелгі адамдардың технологиялық дағдыларын түсіндіруге көмектеседі.
+  </p>
+
+  <h4 style="color:#e9bd68;">4. Отты пайдалану және баспана</h4>
+
+  <p>
+    Отты пайдалану адамзат тарихындағы маңызды жетістіктердің бірі
+    болды. От жылынуға, жарық алуға, тағам дайындауға және кейбір
+    жыртқыштардан қорғануға мүмкіндік берді. Алайда отты меңгеру
+    әртүрлі адам қауымдарында бір уақытта қалыптасқан жоқ.
+  </p>
+
+  <p>
+    Ежелгі адамдар табиғи үңгірлерді, жартастардың ықтасын жерлерін
+    және уақытша баспаналарды пайдаланған. Баспана таңдау кезінде
+    ауа райы, суға жақындық, азық қоры және қауіпсіздік сияқты
+    жағдайлар ескерілген.
+  </p>
+
+  <div style="background:rgba(210,154,225,0.08);border:1px solid #9465a4;padding:15px;border-radius:9px;margin:18px 0;">
+    <h4 style="color:#d29ae1;margin-top:0;">🔥 Оттың маңызы</h4>
+    <p style="margin-bottom:0;">
+      Отты пайдалану жылыну мен тағам дайындауға ғана емес, адамдардың
+      табиғи ортада тіршілік ету мүмкіндіктерінің кеңеюіне де ықпал етті.
+    </p>
+  </div>
+
+  <h4 style="color:#72c7d5;">5. Қазақстан аумағындағы палеолит ескерткіштері</h4>
+
+  <p>
+    Қазақстан аумағында тас дәуірін зерттеуге мүмкіндік беретін көптеген
+    археологиялық орындар бар. Олардың қатарында Қаратау өңіріндегі
+    Бөріқазған мен Тәңірқазған тұрақтары, сондай-ақ Маңғыстау өңіріндегі
+    Шақпақата ескерткіші аталады. Бұл орындардан табылған тас бұйымдар
+    ежелгі адамдардың еңбек әрекеті туралы мәлімет береді.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0;">
+
+    <div style="border:1px solid #80663b;border-radius:9px;padding:14px;background:rgba(233,189,104,0.05);">
+      <h4 style="color:#e9bd68;margin-top:0;">Бөріқазған</h4>
+      <p>
+        Қаратау өңіріндегі белгілі палеолиттік орындардың бірі.
+        Табылған тас бұйымдар ежелгі адамдардың еңбек құралдарын
+        зерттеуде маңызды.
+      </p>
+    </div>
+
+    <div style="border:1px solid #438c98;border-radius:9px;padding:14px;background:rgba(114,199,213,0.05);">
+      <h4 style="color:#72c7d5;margin-top:0;">Тәңірқазған</h4>
+      <p>
+        Қаратау аймағындағы археологиялық ескерткіш. Оның тас
+        бұйымдары Қазақстан аумағындағы ежелгі қоныстану тарихын
+        зерттеуге көмектеседі.
+      </p>
+    </div>
+
+    <div style="border:1px solid #4c8e5c;border-radius:9px;padding:14px;background:rgba(126,201,143,0.05);">
+      <h4 style="color:#7ec98f;margin-top:0;">Шақпақата</h4>
+      <p>
+        Маңғыстау өңіріндегі тас дәуірімен байланысты археологиялық
+        орындардың бірі. Бұл ескерткіш өңірдің ежелгі тарихын
+        зерттеуде маңызды.
+      </p>
+    </div>
+
+  </div>
+
+  <p>
+    Археологиялық тұрақтарды зерттегенде ғалымдар табылған заттардың
+    орналасуын, топырақ қабаттарын, тас құралдардың жасалу ерекшеліктерін
+    және басқа деректерді салыстырады. Бір ғана бұйымға сүйенбей,
+    барлық қолжетімді дәлелдерді бірге қарастыру тарихи қорытындының
+    сенімділігін арттырады.
+  </p>
+
+  <h4 style="color:#7ec98f;">6. Археологтар палеолитті қалай зерттейді?</h4>
+
+  <p>
+    Археологиялық зерттеу бірнеше кезеңнен тұрады. Алдымен мамандар
+    ескерткіштің орналасуын анықтап, жер бедерін және бұрынғы зерттеулерді
+    қарастырады. Қазба барысында табылған заттардың орны мен тереңдігі
+    тіркеледі. Кейін бұйымдар сипатталып, суретке түсіріліп, зертханалық
+    және салыстырмалы талдаудан өткізіледі.
+  </p>
+
+  <ul>
+    <li>
+      <strong style="color:#e9bd68;">Стратиграфия:</strong>
+      археологиялық қабаттардың орналасуын және олардың өзара
+      байланысын зерттеу.
+    </li>
+    <li>
+      <strong style="color:#72c7d5;">Типологиялық салыстыру:</strong>
+      құралдардың пішіні мен жасалу тәсілдерін өзара салыстыру.
+    </li>
+    <li>
+      <strong style="color:#7ec98f;">Технологиялық талдау:</strong>
+      тас бұйымның қалай өңделгенін және қандай әдістер қолданылғанын
+      анықтауға тырысу.
+    </li>
+    <li>
+      <strong style="color:#d29ae1;">Зертханалық зерттеу:</strong>
+      материалдың ерекшеліктерін және қолда бар жағдайда оның
+      мерзімін анықтауға көмектесетін әдістерді қолдану.
+    </li>
+  </ul>
+
+  <h4 style="color:#e9bd68;">7. Адам эволюциясы және бейімделу</h4>
+
+  <p>
+    Адам эволюциясы миллиондаған жылдарға созылған күрделі үдеріс болды.
+    Әртүрлі адам түрлері әр кезеңде өмір сүріп, дене құрылысы,
+    қозғалысы және еңбек құралдарын жасау қабілеті жағынан өзгерістерге
+    ұшырады. Бұл өзгерістер бір мезетте болған жоқ және әртүрлі
+    табиғи жағдайлармен байланысты болды.
+  </p>
+
+  <p>
+    Ежелгі адамдардың өмірін зерттеу кезінде ғалымдар тас құралдармен
+    қатар жануар сүйектерін, қоныстардың іздерін және басқа да
+    археологиялық деректерді қарастырады. Осы материалдарды салыстыру
+    адамның қоршаған ортаға қалай бейімделгенін түсінуге мүмкіндік береді.
+  </p>
+
+  <h4 style="color:#72c7d5;">8. Палеолит дәуірінің тарихи маңызы</h4>
+
+  <p>
+    Палеолит адамзат тарихының алғашқы технологиялары мен еңбек
+    дағдыларының қалыптасуын түсіндіреді. Тас құралдарын жасау,
+    табиғи ресурстарды пайдалану, аңшылық пен терімшілік тәжірибесі
+    адамдардың тіршілік ету мүмкіндіктерін кеңейтті. Археологиялық
+    деректер осы өзгерістерді нақты заттай айғақтар арқылы зерттеуге
+    жағдай жасайды.
+  </p>
+
+  <p>
+    Қазақстандағы палеолит ескерткіштері еліміздің ежелгі тарихын
+    танып-білуде маңызды орын алады. Оларды сақтау, ғылыми тұрғыдан
+    зерттеу және қоғамға таныстыру мәдени мұраны келешек ұрпаққа
+    жеткізуге көмектеседі.
+  </p>
+
+  <div style="background:linear-gradient(135deg,rgba(233,189,104,0.12),rgba(114,199,213,0.06));border:1px solid #80663b;padding:16px 18px;border-radius:10px;margin:22px 0;">
+    <h4 style="color:#e9bd68;margin-top:0;">✧ Қорытынды</h4>
+    <p style="margin-bottom:0;">
+      Палеолитті зерттеу — ежелгі адамдардың қалай өмір сүргенін,
+      құралдарды қалай жасағанын және табиғи ортаға қалай бейімделгенін
+      түсінудің маңызды жолы. Қазақстанның археологиялық ескерткіштері
+      адамзаттың ерте тарихын зерттеуге құнды деректер береді.
+    </p>
+  </div>
+
+  <p style="font-size:12px;color:#b9aa8e;border-top:1px solid #51452f;padding-top:12px;">
+    Ескерту: археологиялық ескерткіштердің мерзімі мен табылған
+    бұйымдардың қызметі ғылыми зерттеулерге қарай нақтылануы мүмкін.
+    Тарихи тұжырымдар бірнеше дереккөзді салыстыру арқылы бағаланады.
+  </p>
+
+</div>
+
+    </article>
+
+    <!-- 2. МЕЗОЛИТ -->
+    <article class="period-card">
+      <button class="period-toggle" type="button" aria-expanded="false">
+        <span class="period-num">02</span>
+        <span class="period-copy">
+          <strong>Мезолит</strong>
+          <small>Орта тас дәуірі</small>
+          <span>Климаттың өзгеруі, микролиттер және аңшылық тәсілдерінің дамуы.</span>
+        </span>
+        <span class="period-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8 Q52 32 12 56"/>
+            <path d="M12 8 L48 32 L12 56"/>
+            <path d="M22 32 H54"/>
+            <path d="M45 24 L54 32 L45 40"/>
+            <path d="M24 21 L30 32 L24 43"/>
+          </svg>
+        </span>
+        <span class="period-chevron">⌄</span>
+      </button>
+
+      
+<div class="period-detail">
+
+  <h3>Мезолит — табиғи ортаға бейімделу кезеңі</h3>
+
+  <p>
+    Мезолит — тас дәуірінің палеолит пен неолит арасындағы өтпелі кезеңі.
+    «Мезолит» сөзі грек тіліндегі «мезос» — орта және «литос» — тас
+    сөздерінен шыққан. Бұл атау оның тас дәуіріндегі аралық орнын білдіреді.
+    Мезолиттің мерзімі әр аймақта әртүрлі болғанымен, Еуразияның көптеген
+    өңірінде ол соңғы мұз дәуірінен кейінгі табиғи өзгерістер кезеңімен
+    байланыстырылады.
+  </p>
+
+  <p>
+    Осы уақытта адамдар қоршаған ортаның өзгеруіне бейімделіп, аңшылық
+    тәсілдерін жетілдірді, ұсақ тас құралдарды кеңірек пайдаланды және
+    табиғи ресурстарды игерудің жаңа жолдарын меңгерді. Адамдардың күнделікті
+    тіршілігі жергілікті климатқа, жануарлар дүниесіне және су көздерінің
+    орналасуына тәуелді болды.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0;">
+    <div style="background:#242117;border:1px solid #6f5a2a;border-radius:10px;padding:16px;">
+      <h4 style="margin-top:0;">📅 Тарихи орны</h4>
+      <p>Палеолит пен неолит арасындағы кезең.</p>
+    </div>
+    <div style="background:#242117;border:1px solid #6f5a2a;border-radius:10px;padding:16px;">
+      <h4 style="margin-top:0;">🏹 Негізгі кәсіп</h4>
+      <p>Аңшылық, терімшілік және кейбір өңірлерде балық аулау.</p>
+    </div>
+    <div style="background:#242117;border:1px solid #6f5a2a;border-radius:10px;padding:16px;">
+      <h4 style="margin-top:0;">🪨 Құралдары</h4>
+      <p>Микролиттер, тас қалақшалар, қырғыштар мен ұштықтар.</p>
+    </div>
+  </div>
+
+  <h4>1. Табиғи жағдайлардың өзгеруі</h4>
+
+  <p>
+    Соңғы мұз дәуірі аяқталғаннан кейін көптеген аймақтардың табиғи ортасы
+    өзгерді. Мұздықтар шегініп, ормандар мен ашық далалардың таралуы өзгерді.
+    Жануарлардың мекендеу аумақтары да біртіндеп ауысты. Мұндай өзгерістер
+    ежелгі адамдардың аңшылық бағыттарына, тұрақ таңдауына және қорек табу
+    тәсілдеріне ықпал етті.
+  </p>
+
+  <p>
+    Адамдар қоршаған ортадағы өзгерістерді ескере отырып, аңдардың маусымдық
+    қозғалысын бақылап, су көздеріне және азық табуға қолайлы жерлерді
+    пайдаланған. Бірқатар қауымдар жыл мезгіліне қарай әртүрлі аумақтарға
+    көшіп отырған.
+  </p>
+
+  <div style="background:#1c211c;border-left:4px solid #b99a50;padding:15px 18px;margin:16px 0;border-radius:6px;">
+    <strong style="color:#d9bd75;">Назар аудар!</strong>
+    <p>
+      Мезолиттегі табиғи өзгерістер барлық өңірде бірдей болған жоқ.
+      Сондықтан адамдардың өмір салты мен бейімделу жолдарын әр аймақтың
+      археологиялық деректері арқылы жеке қарастыру қажет.
+    </p>
+  </div>
+
+  <h4>2. Микролиттер және тас өңдеу технологиясы</h4>
+
+  <p>
+    Мезолиттің маңызды белгілерінің бірі — ұсақ тас бөлшектерді жасау
+    және оларды күрделі құралдардың құрамында пайдалану. Мұндай шағын
+    тас бұйымдар микролиттер деп аталады. Олар кейде ағаш немесе сүйек
+    негізге бекітіліп, бірнеше бөліктен тұратын еңбек құралын жасауға
+    мүмкіндік берген.
+  </p>
+
+  <p>
+    Тас өңдеу кезінде адамдар шикізаттың қасиеттерін ескеріп, қажетті
+    пішіндегі қалақшалар мен жаңқаларды бөліп алған. Дайын бұйымның
+    пішіні оның атқаратын қызметіне байланысты болды.
+  </p>
+
+  <ul>
+    <li><strong>Микролиттер:</strong> көлемі шағын тас бөлшектер.</li>
+    <li><strong>Қалақшалар:</strong> тас өзегінен алынатын ұзынша жұқа бұйымдар.</li>
+    <li><strong>Қырғыштар:</strong> тері мен басқа материалдарды өңдеуге пайдаланылған құралдар.</li>
+    <li><strong>Ұштықтар:</strong> кейбір аңшылық құралдарына бекітілген үшкір бөлшектер.</li>
+    <li><strong>Құрама құралдар:</strong> бірнеше материалдан немесе бөлшектен құрастырылған еңбек құралдары.</li>
+  </ul>
+
+  <p>
+    Тас бұйымдарды зерттеу арқылы археологтар ежелгі адамдардың техникалық
+    дағдылары мен құрал жасау дәстүрлерін анықтайды. Дегенмен микролиттердің
+    кездесуі ғана ескерткіштің мерзімін нақты белгілеуге жеткіліксіз:
+    олардың табылған қабаты мен басқа археологиялық материалдар да ескеріледі.
+  </p>
+
+  <h4>3. Садақ пен жебенің маңызы</h4>
+
+  <p>
+    Садақ пен жебе мезолит дәуіріндегі аңшылықпен жиі байланыстырылады.
+    Мұндай құралдар аңға белгілі бір қашықтықтан әрекет етуге мүмкіндік
+    берді. Жебенің ұшына тас бөлшектер бекітілуі мүмкін еді.
+  </p>
+
+  <p>
+    Садақ пен жебенің таралуы барлық аймақта бір уақытта жүрген жоқ.
+    Олардың қолданылуын зерттегенде археологтар тас ұштықтарды, басқа
+    бұйымдарды және табылған орынның археологиялық жағдайын бірге талдайды.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0;">
+    <div style="background:#242117;border-radius:9px;padding:15px;border:1px solid #594b2b;">
+      <h4 style="margin-top:0;">Садақ</h4>
+      <p>Жебені ұшыруға арналған аңшылық құралы.</p>
+    </div>
+    <div style="background:#242117;border-radius:9px;padding:15px;border:1px solid #594b2b;">
+      <h4 style="margin-top:0;">Жебе</h4>
+      <p>Садақпен қолданылатын, ұштық бекітілуі мүмкін құрал.</p>
+    </div>
+  </div>
+
+  <h4>4. Аңшылық, терімшілік және балық аулау</h4>
+
+  <p>
+    Мезолит адамдарының шаруашылығы негізінен табиғи ресурстарды пайдалануға
+    сүйенді. Аңшылық арқылы жануарлардан азық пен киім жасауға жарамды
+    материалдар алынды. Терімшілік кезінде жеуге жарамды өсімдіктер,
+    жемістер, тұқымдар және тамырлар жиналды.
+  </p>
+
+  <p>
+    Өзендер мен көлдер маңында өмір сүрген кейбір қауымдар үшін балық аулау
+    маңызды кәсіпке айналды. Оның маңызы су көздерінің қолжетімділігіне,
+    балық түрлеріне және жергілікті табиғи жағдайларға байланысты болды.
+  </p>
+
+  <p>
+    Азық табудың бірнеше тәсілін пайдалану адамдарға маусымдық өзгерістерге
+    бейімделуге көмектесті. Алайда барлық қауымның шаруашылығы бірдей
+    болмаған: әр өңірдің табиғи ресурстары мен тіршілік жағдайлары әртүрлі еді.
+  </p>
+
+  <h4>5. Тұрақтар және күнделікті өмір</h4>
+
+  <p>
+    Мезолит адамдары суға, аңшылық аумақтарына және басқа да табиғи
+    ресурстарға қолайлы жерлерді таңдаған. Кейбір тұрақтар уақытша
+    пайдаланылса, басқалары белгілі бір кезеңдерде қайта қолданылуы мүмкін.
+    Қауымдардың қозғалысы азық қоры мен маусымдық жағдайларға тәуелді болды.
+  </p>
+
+  <p>
+    Археологиялық тұрақтардан табылған тас құралдар, жануар сүйектері,
+    ошақ іздері және басқа материалдар адамдардың күнделікті өмірін
+    зерттеуге көмектеседі. Дегенмен органикалық заттар уақыт өте келе
+    бұзылып кетуі мүмкін, сондықтан археологиялық деректер әрдайым
+    толық сақтала бермейді.
+  </p>
+
+  <h4>6. Қазақстандағы мезолитті зерттеу</h4>
+
+  <p>
+    Қазақстан аумағындағы мезолитті зерттеу кезінде әртүрлі өңірлерден
+    табылған тас бұйымдар мен археологиялық тұрақтардың материалдары
+    қарастырылады. Ғалымдар бұйымдардың пішінін, жасалу техникасын,
+    шикізатын және табылған мәдени қабатын салыстырады.
+  </p>
+
+  <p>
+    Ескерткіштің мерзімін анықтау үшін оның ғылыми сипаттамасы, табылған
+    заттардың өзара байланысы және мүмкін болған жағдайда мерзімдеуге
+    көмектесетін қосымша зерттеу нәтижелері ескеріледі. Сол себепті
+    кез келген тас бұйымды нақты дәлелсіз мезолитке жатқызу дұрыс емес.
+  </p>
+
+  <p>
+    Қазақстандағы тас дәуірін зерттеу ежелгі адамдардың табиғи ортаға
+    бейімделуін, еңбек құралдарын жасау тәсілдерін және әртүрлі өңірлердегі
+    тіршілік ерекшеліктерін түсінуге мүмкіндік береді.
+  </p>
+
+  <h4>7. Мезолиттің палеолиттен айырмашылығы</h4>
+
+  <div style="overflow-x:auto;margin:16px 0;">
+    <table style="width:100%;border-collapse:collapse;min-width:280px;">
+      <thead>
+        <tr style="background:#30291a;color:#e0c77d;">
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Салыстыру</th>
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Палеолит</th>
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Мезолит</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Тарихи орны</td>
+          <td style="padding:10px;border:1px solid #51452c;">Ежелгі тас дәуірі</td>
+          <td style="padding:10px;border:1px solid #51452c;">Палеолит пен неолит арасындағы кезең</td>
+        </tr>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Тас құралдары</td>
+          <td style="padding:10px;border:1px solid #51452c;">Жаңқалар, шапқылар және басқа құралдар</td>
+          <td style="padding:10px;border:1px solid #51452c;">Көптеген кешендерде ұсақ тас бұйымдар мен микролиттер</td>
+        </tr>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Тіршілік тәсілі</td>
+          <td style="padding:10px;border:1px solid #51452c;">Аңшылық пен терімшілік</td>
+          <td style="padding:10px;border:1px solid #51452c;">Аңшылық, терімшілік және кей өңірлерде балық аулау</td>
+        </tr>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Табиғи орта</td>
+          <td style="padding:10px;border:1px solid #51452c;">Әртүрлі климаттық кезеңдер</td>
+          <td style="padding:10px;border:1px solid #51452c;">Мұз дәуірінен кейінгі өзгерістермен байланысты</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>8. Мезолиттің тарихи маңызы</h4>
+
+  <p>
+    Мезолит — адамзаттың табиғи ортадағы өзгерістерге бейімделу тарихын
+    көрсететін маңызды кезең. Бұл дәуірдің археологиялық материалдары
+    еңбек құралдарының жетілдірілуін, аңшылық тәсілдерінің әртүрлілігін
+    және табиғи ресурстарды пайдалану жолдарын зерттеуге мүмкіндік береді.
+  </p>
+
+  <p>
+    Мезолитті зерттеу арқылы ғалымдар палеолит дәуірінен кейінгі
+    қоғамдардың қалай өзгергенін және неолит кезеңіндегі жаңа
+    шаруашылық тәсілдерінің қалыптасуына қандай жағдайлар ықпал еткенін
+    түсіндіруге тырысады.
+  </p>
+
+  <div style="background:#211f17;border:1px solid #786235;border-radius:10px;padding:17px;margin-top:20px;">
+    <h4 style="margin-top:0;">📚 Қорытынды</h4>
+    <p>
+      Мезолит дәуірінде адамдар өзгерген табиғи ортаға бейімделіп,
+      тас өңдеу дағдыларын дамытты және аңшылық, терімшілік, кейбір
+      өңірлерде балық аулау арқылы тіршілік етті. Осы кезеңнің
+      археологиялық ескерткіштері адамзаттың ежелгі тарихындағы
+      технологиялық және тұрмыстық өзгерістерді түсінуге көмектеседі.
+    </p>
+  </div>
+
+</div>
+
+    </article>
+
+    <!-- 3. НЕОЛИТ -->
+    <article class="period-card">
+      <button class="period-toggle" type="button" aria-expanded="false">
+        <span class="period-num">03</span>
+        <span class="period-copy">
+          <strong>Неолит</strong>
+          <small>Жаңа тас дәуірі</small>
+          <span>Тасты тегістеу, қыш ыдыстар және шаруашылықтағы өзгерістер.</span>
+        </span>
+        <span class="period-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 9 H41 L46 18 L42 26 L44 45 Q32 57 20 45 L22 26 L18 18 Z"/>
+            <path d="M22 26 H42"/>
+            <path d="M21 36 H43"/>
+            <path d="M23 46 H41"/>
+            <path d="M25 14 H39"/>
+          </svg>
+        </span>
+        <span class="period-chevron">⌄</span>
+      </button>
+
+      
+<div class="period-detail">
+
+  <h3>Неолит — тас өңдеу технологияларының жетілуі</h3>
+
+  <p>
+    Неолит — тас дәуірінің соңғы кезеңі. «Неолит» атауы грек тіліндегі
+    «неос» — жаңа және «литос» — тас сөздерінен шыққан, яғни «жаңа тас
+    дәуірі» деген мағынаны білдіреді. Бұл кезеңде адамдар тас құралдарын
+    жасаудың бұрынғы тәсілдерін жетілдіріп, тасты тегістеу, бұрғылау және
+    жылтырату әдістерін кеңірек пайдаланды. Кейбір аймақтарда қыш ыдыс
+    жасау, егіншілік пен мал шаруашылығы да дами бастады.
+  </p>
+
+  <p>
+    Неолиттің мерзімі әлемнің әртүрлі аймақтарында бірдей болған жоқ.
+    Оның басталуы мен аяқталуы жергілікті табиғи жағдайларға, шаруашылық
+    ерекшеліктеріне және археологиялық мәдениеттердің дамуына байланысты
+    өзгерді. Сондықтан неолитті бір ғана күнтізбелік мерзіммен сипаттау
+    барлық өңірге бірдей сәйкес келмейді.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0;">
+    <div style="background:#242117;border:1px solid #6f5a2a;border-radius:10px;padding:16px;">
+      <h4 style="margin-top:0;">🪨 Тас өңдеу</h4>
+      <p>Тегістеу, бұрғылау және жылтырату әдістері жетілдірілді.</p>
+    </div>
+    <div style="background:#242117;border:1px solid #6f5a2a;border-radius:10px;padding:16px;">
+      <h4 style="margin-top:0;">🏺 Қыш ыдыс</h4>
+      <p>Кейбір қоғамдарда ыдыс жасау мен оны өрнектеу дамыды.</p>
+    </div>
+    <div style="background:#242117;border:1px solid #6f5a2a;border-radius:10px;padding:16px;">
+      <h4 style="margin-top:0;">🌾 Шаруашылық</h4>
+      <p>Бірқатар өңірлерде егіншілік пен мал шаруашылығы қалыптасты.</p>
+    </div>
+  </div>
+
+  <h4>1. Тас құралдарын жетілдіру</h4>
+
+  <p>
+    Неолит дәуірінде адамдар тасты жарып, одан қалақшалар мен жаңқалар
+    алумен қатар, оның бетін тегістеп, жылтыратып және бұрғылап өңдеуді
+    де меңгерді. Мұндай технологиялар құралдардың пішінін жетілдіруге
+    және оларды белгілі бір еңбек әрекеттеріне бейімдеуге мүмкіндік берді.
+  </p>
+
+  <p>
+    Тас құралдарын жасау үшін қатты әрі өңдеуге қолайлы тау жыныстары
+    пайдаланылды. Шикізатты таңдау мен өңдеу тәсілі жергілікті табиғи
+    ресурстарға және қауымдардың технологиялық тәжірибесіне байланысты болды.
+  </p>
+
+  <ul>
+    <li><strong>Тегістелген тас балталар:</strong> ағаш өңдеу және басқа да еңбек әрекеттерінде қолданылған.</li>
+    <li><strong>Қырғыштар:</strong> тері мен басқа материалдарды өңдеуге пайдаланылған.</li>
+    <li><strong>Тас қалақшалар:</strong> кесу және түрлі күнделікті жұмыстарға арналған.</li>
+    <li><strong>Дән үккіштер:</strong> кейбір қоғамдарда өсімдік өнімдерін ұнтақтауға пайдаланылған.</li>
+    <li><strong>Бұрғыланған бұйымдар:</strong> тасты тесіп өңдеу техникасының дамығанын көрсетеді.</li>
+  </ul>
+
+  <p>
+    Құралдардың нақты қызметін анықтау үшін археологтар олардың пішіні
+    мен көлемін ғана емес, жұмыс іздерін, жасалу техникасын және табылған
+    археологиялық қабатын да зерттейді.
+  </p>
+
+  <div style="background:#1c211c;border-left:4px solid #b99a50;padding:15px 18px;margin:16px 0;border-radius:6px;">
+    <strong style="color:#d9bd75;">Археологиялық дерек</strong>
+    <p>
+      Тастың бетінде сақталған өңдеу іздері ежелгі адамдардың құрал жасау
+      әдістерін түсінуге көмектеседі. Ал құралдың қызметі туралы қорытынды
+      бірнеше ғылыми белгіні салыстыру арқылы жасалады.
+    </p>
+  </div>
+
+  <h4>2. Қыш ыдыстар және қолөнер</h4>
+
+  <p>
+    Қыш ыдыстар неолит дәуіріндегі көптеген қоғамдардың тұрмысында маңызды
+    орын алды. Олар азық-түлікті сақтауға, дайындауға және кейбір заттарды
+    тасымалдауға пайдаланылды. Ыдыстарды жасау үшін балшық иленіп,
+    қажетті пішінге келтіріліп, кейін кептіріліп немесе арнайы жағдайда
+    күйдірілген.
+  </p>
+
+  <p>
+    Қыш бұйымдардың пішіні, қабырғасының қалыңдығы, балшық құрамындағы
+    қоспалар және сыртқы өрнектері әртүрлі болуы мүмкін. Кейбір ыдыстар
+    сызықтармен, ойықтармен немесе басқа өрнек түрлерімен безендірілген.
+    Бұл ерекшеліктер археологтарға ескерткіштер арасындағы ұқсастықтар
+    мен айырмашылықтарды анықтауға көмектеседі.
+  </p>
+
+  <p>
+    Қыш жасау барлық аймақта бір уақытта пайда болған жоқ. Кейбір
+    қоғамдарда қыш ыдыстар таралғанымен, басқа қауымдар өздерінің
+    дәстүрлі ыдыс жасау және азық сақтау тәсілдерін қолдана берді.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0;">
+    <div style="background:#242117;border:1px solid #594b2b;border-radius:9px;padding:15px;">
+      <h4 style="margin-top:0;">Ыдыс жасау</h4>
+      <p>Балшықты дайындау, пішіндеу, кептіру және күйдіру әрекеттерін қамтыды.</p>
+    </div>
+    <div style="background:#242117;border:1px solid #594b2b;border-radius:9px;padding:15px;">
+      <h4 style="margin-top:0;">Өрнектеу</h4>
+      <p>Ыдыстың сыртқы бетіндегі белгілерді салыстыруға мүмкіндік береді.</p>
+    </div>
+  </div>
+
+  <h4>3. Шаруашылықтағы өзгерістер</h4>
+
+  <p>
+    Неолит дәуіріндегі маңызды өзгерістердің бірі — кейбір аймақтарда
+    өсімдіктерді өсіруге және жануарларды қолға үйретуге негізделген
+    шаруашылықтың дамуы. Бұл үдерістер біртіндеп жүріп, адамдардың
+    қорек өндіру, сақтау және қоныстану тәсілдеріне әсер етті.
+  </p>
+
+  <p>
+    Егіншілік дамыған қоғамдарда адамдар жерді өңдеп, өсімдіктердің
+    өнімін жинады. Жануарларды қолға үйрету кейбір қауымдарға азық пен
+    басқа да қажетті ресурстарды алудың жаңа мүмкіндіктерін берді.
+    Мұндай өзгерістердің ауқымы әр аймақтың табиғи жағдайына байланысты болды.
+  </p>
+
+  <p>
+    Дегенмен неолит дәуіріндегі халықтардың барлығы егіншілікпен немесе
+    мал шаруашылығымен айналысқан жоқ. Көптеген қауымдар үшін аңшылық,
+    терімшілік және балық аулау маңызды тіршілік көзі болып қала берді.
+    Кейбір қоғамдар әртүрлі шаруашылық тәсілдерін қатар пайдаланған.
+  </p>
+
+  <h4>4. Қоныстар мен қоғамдық өмір</h4>
+
+  <p>
+    Кейбір неолиттік қоғамдарда ұзақ уақыт пайдаланылған қоныстар
+    қалыптасты. Археологиялық зерттеулер кезінде тұрғынжайлардың
+    қалдықтары, ошақ орындары, еңбек құралдары, қыш сынықтары және
+    азық дайындауға қатысты материалдар табылуы мүмкін.
+  </p>
+
+  <p>
+    Қоныстардың орналасуы су көздеріне, жергілікті ресурстарға және
+    шаруашылық түріне байланысты болды. Адамдардың бір жерде ұзақ
+    тұруы кейбір аймақтарда азық қорын сақтау мен тұрмыстық кеңістікті
+    ұйымдастырудың маңызын арттырды.
+  </p>
+
+  <p>
+    Қоғамдық өмір туралы мәліметтер археологиялық олжаларды кешенді
+    зерттеу арқылы анықталады. Бір ғана затқа сүйеніп, бүкіл қауымның
+    тұрмысын немесе әлеуметтік құрылымын толық сипаттау мүмкін емес.
+  </p>
+
+  <h4>5. Еңбек бөлінісі және күнделікті тұрмыс</h4>
+
+  <p>
+    Құрал жасау, ыдыс дайындау, азық жинау және қонысты күтіп ұстау
+    күнделікті өмірдің маңызды бөліктері болды. Әртүрлі жұмыстарды
+    орындау үшін тас, ағаш, сүйек, балшық және басқа да қолжетімді
+    материалдар пайдаланылды.
+  </p>
+
+  <p>
+    Еңбек дағдылары тәжірибе арқылы ұрпақтан ұрпаққа берілуі мүмкін еді.
+    Бұйымдарды жасау тәсілдерінің ұқсастығы археологтарға қауымдардың
+    технологиялық дәстүрлерін салыстыруға көмектеседі. Алайда нақты
+    еңбек бөлінісін анықтау үшін қосымша археологиялық деректер қажет.
+  </p>
+
+  <h4>6. Қазақстандағы неолит ескерткіштері</h4>
+
+  <p>
+    Қазақстан аумағынан тас дәуірінің әртүрлі кезеңдеріне жататын
+    тұрақтар мен тас бұйымдар табылған. Неолит ескерткіштерін зерттеу
+    барысында ғалымдар тас құралдардың жасалу техникасын, тұрақтардың
+    орналасуын, шикізат түрлерін және табылған материалдардың өзара
+    байланысын қарастырады.
+  </p>
+
+  <p>
+    Шығыс Қазақстандағы Ертіс пен Нарым аңғарлары сияқты өңірлердің
+    археологиялық материалдары аймақтың ежелгі тарихын зерттеуде
+    маңызды. Дегенмен нақты ескерткіштің неолитке жататынын анықтау
+    үшін оның ғылыми сипаттамасы мен мерзімдеу деректеріне сүйену қажет.
+  </p>
+
+  <p>
+    Қазақстандағы неолиттік тұрақтарды зерттеу ежелгі адамдардың
+    табиғи ортаға бейімделуін, тас өңдеу дәстүрлерін және әртүрлі
+    аймақтардағы тіршілік ерекшеліктерін салыстыруға мүмкіндік береді.
+  </p>
+
+  <h4>7. Неолиттің палеолит пен мезолиттен айырмашылығы</h4>
+
+  <div style="overflow-x:auto;margin:16px 0;">
+    <table style="width:100%;border-collapse:collapse;min-width:300px;">
+      <thead>
+        <tr style="background:#30291a;color:#e0c77d;">
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Салыстыру</th>
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Палеолит</th>
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Мезолит</th>
+          <th style="padding:11px;text-align:left;border:1px solid #65532d;">Неолит</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Тас өңдеу</td>
+          <td style="padding:10px;border:1px solid #51452c;">Жару және жаңқа алу әдістері</td>
+          <td style="padding:10px;border:1px solid #51452c;">Көптеген кешендерде ұсақ тас бұйымдар</td>
+          <td style="padding:10px;border:1px solid #51452c;">Тегістеу, бұрғылау және жылтырату</td>
+        </tr>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Шаруашылық</td>
+          <td style="padding:10px;border:1px solid #51452c;">Аңшылық пен терімшілік</td>
+          <td style="padding:10px;border:1px solid #51452c;">Аңшылық, терімшілік және балық аулау</td>
+          <td style="padding:10px;border:1px solid #51452c;">Аймаққа қарай әртүрлі; кей жерде егіншілік пен мал шаруашылығы</td>
+        </tr>
+        <tr>
+          <td style="padding:10px;border:1px solid #51452c;">Материалдар</td>
+          <td style="padding:10px;border:1px solid #51452c;">Тас және басқа табиғи материалдар</td>
+          <td style="padding:10px;border:1px solid #51452c;">Ұсақ тас бөлшектер мен құрама құралдар</td>
+          <td style="padding:10px;border:1px solid #51452c;">Тас, ал кейбір қоғамдарда қыш ыдыстар</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>8. Неолиттің тарихи маңызы</h4>
+
+  <p>
+    Неолит адамзат тарихындағы технологиялық және шаруашылық өзгерістерді
+    түсінуге мүмкіндік береді. Тасты тегістеу мен бұрғылау әдістерінің
+    жетілуі, қыш ыдыс жасаудың кейбір қоғамдарда таралуы және шаруашылық
+    тәсілдерінің өзгеруі ежелгі адамдардың тәжірибесі мен дағдыларының
+    дамығанын көрсетеді.
+  </p>
+
+  <p>
+    Бұл өзгерістер барлық жерде бірдей жүрмегенімен, неолиттік
+    ескерткіштер ежелгі қоғамдардың табиғи ресурстарды қалай пайдаланғанын,
+    тұрмысын қалай ұйымдастырғанын және технологиялық білімді қалай
+    дамытқанын зерттеуге көмектеседі.
+  </p>
+
+  <div style="background:#211f17;border:1px solid #786235;border-radius:10px;padding:17px;margin-top:20px;">
+    <h4 style="margin-top:0;">📚 Қорытынды</h4>
+    <p>
+      Неолит — тас өңдеу әдістері жетіліп, кейбір аймақтарда қыш ыдыс жасау
+      мен өндіруші шаруашылық дамыған кезең. Оның ескерткіштері ежелгі
+      адамдардың технологияларын, күнделікті тұрмысын және табиғи ортамен
+      байланысын түсінуге мүмкіндік береді.
+    </p>
+  </div>
+
+</div>
+
+    </article>
+
+  </div>
+
+</section>
+
+</main>
+
+<aside class="side-column">
+
+  <h2 class="side-title">
+    <span style="font-size:28px;color:var(--gold)">⌖</span>
+    Зерттеу мәзірі
+  </h2>
+
+  <p class="side-intro">
+    Тақырыпты таңдаңыз — толық ақпарат қалқымалы терезеде ашылады.
+  </p>
+
+  <div class="topic-list">
+
+    <button class="topic-button" type="button" data-topic="Ежелгі адамдар">
+      <span class="topic-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="15" r="7"/>
+          <path d="M20 51 L23 29 Q32 23 41 29 L44 51"/>
+          <path d="M23 35 L13 44 M41 35 L51 44"/>
+          <path d="M26 51 L26 58 M38 51 L38 58 M20 58 H44"/>
+        </svg>
+      </span>
+      <span>
+        <strong>Ежелгі адамдар</strong>
+        <small>Түрлері мен өмір салты</small>
+      </span>
+      <span class="topic-arrow">›</span>
+    </button>
+
+    <button class="topic-button" type="button" data-topic="Қазақстандағы тұрақтар">
+      <span class="topic-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 31 L32 10 L56 31"/>
+          <path d="M15 29 V55 H49 V29"/>
+          <path d="M27 55 V39 Q32 32 37 39 V55"/>
+          <path d="M5 59 H59"/>
+        </svg>
+      </span>
+      <span>
+        <strong>Қазақстандағы тұрақтар</strong>
+        <small>Археологиялық орындар</small>
+      </span>
+      <span class="topic-arrow">›</span>
+    </button>
+
+    <button class="topic-button" type="button" data-topic="Тас құралдары">
+      <span class="topic-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14 L23 8 L30 20 L20 30 L8 24 Z"/>
+          <path d="M20 30 L46 56"/>
+          <path d="M55 14 L43 8 L34 19 L44 30 L56 24 Z"/>
+          <path d="M44 30 L18 56"/>
+          <path d="M14 48 L18 44 M46 44 L50 48"/>
+        </svg>
+      </span>
+      <span>
+        <strong>Тас құралдары</strong>
+        <small>Жасалу тәсілі мен қызметі</small>
+      </span>
+      <span class="topic-arrow">›</span>
+    </button>
+
+    <button class="topic-button" type="button" data-topic="Археологиялық олжалар">
+      <span class="topic-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 9 H42 L46 17 L42 25 H22 L18 17 Z"/>
+          <path d="M25 25 L20 33 L23 51 Q32 59 41 51 L44 33 L39 25"/>
+          <path d="M24 35 H40 M25 43 H39"/>
+          <path d="M15 56 H49"/>
+        </svg>
+      </span>
+      <span>
+        <strong>Археологиялық олжалар</strong>
+        <small>Табылған заттар</small>
+      </span>
+      <span class="topic-arrow">›</span>
+    </button>
+
+    <button class="topic-button" type="button" data-topic="Ғылыми деректер">
+      <span class="topic-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 8 H49 V56 H15 Z"/>
+          <path d="M22 19 H42 M22 28 H42 M22 37 H42 M22 46 H38"/>
+          <path d="M10 14 H15 M10 23 H15 M10 32 H15 M10 41 H15 M10 50 H15"/>
+        </svg>
+      </span>
+      <span>
+        <strong>Ғылыми деректер</strong>
+        <small>Зерттеулер мен дереккөздер</small>
+      </span>
+      <span class="topic-arrow">›</span>
+    </button>
+
+  </div>
+  
+<!-- Археологиялық жәдігерлер галереясы -->
+<section class="artifact-gallery" aria-label="Археологиялық жәдігерлер">
+  <div class="artifact-heading">
+    <span class="artifact-heading-icon">✧</span>
+    <div>
+      <h2>Археологиялық жәдігерлер</h2>
+      <p>Тас дәуірінің археологиялық мұрасы</p>
+    </div>
+  </div>
+
+  <div class="artifact-viewer">
+    <button class="artifact-arrow artifact-prev"
+            type="button"
+            aria-label="Алдыңғы жәдігер">
+      &#10094;
+    </button>
+
+    <div class="artifact-image-wrap">
+      <img
+        id="artifactImage"
+        src="https://images.openai.com/static-rsc-4/dnebvyrhYhdXMTqYvk7wRt7j2xydNM-8sb8d2z2oKDWiOZnIOCzYuzbrBvPUWPV2kNKazG288xHBYwjwDLbDLEeMGU2AKnYzvdoUJLXHZU9pDI7weu8fkn7ZBZDmuYRlSNjvDVJXmn1IxzzM0-tUZM0QdB3-6nOAu8RhdYUucp_P5dDr7XLpNeGTiGdJG1yr?purpose=fullsize"
+        alt="Палеолит дәуірінің тас шапқысы"
+      >
+      <span id="artifactPeriod" class="artifact-period">ПАЛЕОЛИТ</span>
+    </div>
+
+    <button class="artifact-arrow artifact-next"
+            type="button"
+            aria-label="Келесі жәдігер">
+      &#10095;
+    </button>
+  </div>
+
+  <div class="artifact-caption">
+    <h3 id="artifactName">Тас шапқы</h3>
+    <p id="artifactDescription">
+      Ежелгі адамдар пайдаланған тас еңбек құралы.
+    </p>
+  </div>
+
+  <div class="artifact-controls">
+    <span id="artifactCounter">01 / 15</span>
+    <div id="artifactDots" class="artifact-dots"></div>
+  </div>
+</section>
+
+</aside>
+
+  </div>
+
+  <footer>
+    <a class="logo" href="index.html">⌁ ARCHEON</a>
+    <p>Қазақстанның ежелгі тарихын зерттеуге арналған білім беру жобасы.</p>
+    <span>© 2026 ARCHEON</span>
+  </footer>
+
+  <div class="modal-backdrop" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Тақырып</h2>
+        <button class="modal-close" type="button" aria-label="Терезені жабу">×</button>
+      </div>
+      <div class="modal-content" id="modalContent"></div>
+
+      
+
+
+    </div>
+  </div>
+
+  <script>
+    const topicData = {
+      
+"Ежелгі адамдар": {
+  intro: "Тас дәуірінде адамзаттың қалыптасуы мен дамуы ұзақ уақыт бойы жүрді. Ежелгі адамдар табиғи ортаға бейімделіп, аңшылықпен, терімшілікпен айналысты және өмір сүруге қажетті еңбек құралдарын жасады. Олардың сыртқы келбеті, тұрмысы мен даму ерекшеліктері археологиялық және антропологиялық зерттеулер арқылы анықталады.",
+  images: [
+    {
+      src: "https://naked-science.ru/wp-content/uploads/2025/03/standard_7283200708_2264a3a000_o.jpg",
+      caption: "Homo habilis — епті адам."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR52Sg2WCi8T7tEz-hzjc69KR3Hqrga2RZl8BZ-XybsS0wPDFrXXiKNRDqJ&s=10",
+      caption: "Homo habilis — епті адам."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReofIzFC8aDF8UlYusCpvHYSJCDi_CJfHsQi3RMcF0tlEOZ4AZiYwLEhc&s=10",
+      caption: "Homo habilis — епті адам."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRmS1yAVB3qolsTDFliZ5larJ7CzHQ4N3JCozGw3vvTA&s=10",
+      caption: "Homo erectus — тік жүретін адам."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2UdPlze0RSlMZUD9EkRu8CLjwOej7HWCqfCK-krKj6JvUoOvNRWUJ3Srn&s=10",
+      caption: "Homo erectus — тік жүретін адам."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUEWSnAvJEnD7sj9VfwfoxgLdvgURijdT774TjAzpN58Y3_I0SuexmUAL3&s=10",
+      caption: "Homo erectus — тік жүретін адам."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqEj-KNiULIM8df032__30fokD1xm0aTdkn37MFSnupA&s=10",
+      caption: "Homo sapiens — саналы адам"
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw9tf7x0S6VpEoQ5n9Qpb9x3TUKyNlAGR6nf_nBKIoCA&s=10",
+      caption: "Homo sapiens — саналы адам"
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm75Y5FI1jDlVzqNeaqJOD-BMO2VIVcKfLmKzPOwVAYg&s=10",
+      caption: "Homo sapiens — саналы адам"
+    }
+  ],
+  points: [
+  "Адам эволюциясы миллиондаған жылдарға созылған ұзақ тарихи үдеріс болды. Адамның арғы тектері уақыт өте келе тік жүруге, құрал жасауға және қоршаған ортаға бейімделуге мүмкіндік беретін ерекшеліктерге ие болды.",
+
+  "Ежелгі адамдардың маңызды жетістіктерінің бірі — тас құралдарын жасау. Олар тасты жару және өңдеу арқылы шапқылар, қырғыштар мен үшкір құралдар дайындап, оларды күнделікті тіршілікте пайдаланды.",
+
+  "Аңшылық пен терімшілік негізгі тіршілік көздері болды. Адамдар жабайы жануарларды аулап, өсімдіктердің жемістерін, тамырларын және басқа да табиғи қорларды жинады.",
+
+  "Отты пайдалану адамзат тарихындағы үлкен жетістіктердің бірі саналады. От жылынуға, жыртқыштардан қорғануға және тағам дайындауға мүмкіндік берді.",
+
+  "Ежелгі адамдардың өмірі табиғи жағдайларға тәуелді болды. Олар үңгірлерді, жартастардың ықтасын жерлерін және өздері жасаған қарапайым баспаналарды пайдаланды.",
+
+  "Қазақстан аумағындағы Бөріқазған, Тәңірқазған және Шақпақата сияқты археологиялық орындар тас дәуіріндегі адамдардың еңбек әрекетін зерттеуде маңызды. Бұл ескерткіштерден табылған тас құралдар ежелгі қоғамның технологиялық деңгейін түсінуге көмектеседі.",
+
+  "Ежелгі адамдардың нақты тұрмысын зерттеу үшін тас құралдар, жануар сүйектері, тұрақтардың қалдықтары және басқа археологиялық деректер салыстырылады. Ал суреттегі адам бейнесі — ғылыми реконструкция немесе иллюстрация болуы мүмкін, оны нақты тарихи тұлғаның портреті деп қабылдауға болмайды.",
+
+  "Археологиялық зерттеулер ежелгі адамдардың өмір салтын, еңбек дағдыларын және мәдени дамуын анықтауға мүмкіндік беріп, адамзат тарихының алғашқы кезеңдерін тереңірек түсінуге көмектеседі."
+]
+},
+
+      "Қазақстандағы тұрақтар": {
+        intro: "Қазақстан аумағында тас дәуіріне жататын көптеген археологиялық тұрақтар зерттелген. Олар ежелгі адамдардың қоныстану аймақтарын, табиғи ортаға бейімделуін және еңбек құралдарын жасау тәсілдерін анықтауға мүмкіндік береді. Қазақстандағы маңызды ескерткіштердің қатарына Қаратау өңіріндегі Бөріқазған, Тәңірқазған және Маңғыстаудағы Шақпақата тұрақтары жатады.",
+        images:  [
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLzPHD-MaV7JkAuaQsF3BB6MNKwF5-_rFH_b8MNA0sqg&s=10",
+      caption: "Бөріқазған тұрағы"
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh6RgFCXmL4Ot2J-ubt9ZNzsmGw0QwmHNKO_6ldUSlYQ&s=10",
+      caption: "Тәңірқазған тұрағы"
+    },
+    {
+      src: "data:image/jpeg;base64,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",
+      caption: "Шақпақата тұрағы"
+    },
+    
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP3ePI5ZWk_q6cgjIfP0djperfmqrj2YOzELULX8cKWA&s=10",
+      caption: "Арыстанды тұрағы"
+    },
+    {
+      src: "data:image/jpeg;base64,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",
+      caption: "Майбұлақ тұрағы"
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjEuP8psePoHJsQOspOdway5ta_vKvR6zLDAKazxF4Yw&s=10",
+      caption: "Қараүңгір тұрағы"
+    }
+  ],
+        points: [
+          "Бөріқазған тұрағы — Қаратау өңіріндегі төменгі палеолит ескерткіштерінің бірі. Оны археолог Халел Алпысбаев 1958 жылы ашып, зерттеген. Зерттеу барысында тас бұйымдар, соның ішінде шапқыш құралдар мен тас жаңқалары анықталған.",
+
+  "Тәңірқазған тұрағы да Қаратау аймағында орналасқан. Бұл жерден палеолит дәуіріне тән тас бұйымдар табылған. Олардың арасында шапқыш құралдар, тас жаңқалары және өзектастар бар. Ескерткіш ежелгі адамдардың тас өңдеу технологиясын зерттеуге көмектеседі.",
+
+  "Шақпақата тұрағы Маңғыстау өңіріндегі тас дәуірі ескерткіштерінің қатарына жатады. Бұл аймақтан табылған тас құралдар ежелгі адамдардың еңбек әрекеті мен табиғи ортаға бейімделуі туралы мәлімет береді.",
+
+  "Қаратау өңіріндегі тұрақтардың орналасуы ежелгі адамдар үшін табиғи ресурстардың маңызды болғанын көрсетеді. Су көздері, тас шикізаты және жануарлар дүниесі олардың тіршілігіне әсер еткен болуы мүмкін.",
+
+  "Археологтар тұрақтарды зерттегенде тас құралдардың пішінін, жасалу техникасын, табылған қабатын және айналасындағы табиғи ортаны қарастырады. Осы деректер арқылы ескерткіштердің мерзімі мен тарихи маңызы анықталады.",
+
+  "Қазақстандағы тас дәуірі тұрақтарын зерттеуге Халел Алпысбаев сияқты археологтар үлкен үлес қосты. Кейінгі зерттеулер бұрын табылған материалдарды қайта қарастырып, олардың ғылыми маңызын тереңірек түсінуге мүмкіндік берді.",
+
+  "Тас дәуірінің тұрақтары — Қазақстанның ежелгі тарихын танытатын құнды археологиялық мұра. Олар адамзаттың алғашқы еңбек дағдылары мен мәдени дамуын зерттеуге көмектеседі."
+]
+        
+      },
+      
+
+"Тас құралдары": {
+  intro: "Тас құралдары — ежелгі адамдардың еңбек әрекеті мен технологиялық дамуын көрсететін маңызды археологиялық деректердің бірі. Адамдар тасты өңдеу арқылы күнделікті тіршілікке қажетті құралдар жасаған. Археологтар олардың пішінін, жасалу тәсілін және табылған орнын зерттеу арқылы ежелгі адамдардың өмірі туралы мәлімет алады.",
+
+  images: [
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9GeQBdUI0R9dwCFSNkV5mE5bS7N-AmI41TrKX_E6CeA&s=10",
+      caption: "Тас дәуіріндегі қарапайым тас құрал."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThFtatXucmO9DSKP7J8aNVeCSlh2ingDnYp-Os9FPqDw&s=10",
+      caption: "Шапқы — тастан жасалған еңбек құралы."
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Lg-mO6GOfGkVFQYt9fqA1-PzjeS4ockI4dJ1b5zU4g&s=10",
+      caption: "Ежелгі адамдар пайдаланған тас шапқылар."
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/JO2xy8uPRbUmiH1fqRU2KEAf85aBj9olCTl1XhpPHLuI1mYp1Iqpv2LcvC9Coxws3cwJtEDrMGhwvRTr5e7Dfw4Weww3NVejtiIN-Xk7hug-WRMliS4r7DMh12Yx66J7TatV3KTp5xlPsWuceztDb4gNzOTkFR1PpqBh24-UNakiwslSipP6d360irwKW1Y3?purpose=fullsize",
+      caption: "ас кескіштер мен тескіштер"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/t--DU3VcwI88lLxi99bqzGH9-W7EZrgBSf66wSTl_3n3Risk9U2ocaDgHXsru7RU34lH1gVs80CpqqkEPirUyhpNoRWksijITaAokmGazdfbSVUAQX9rvitpOcrPCdE9L7_EVF8AyMkN8wcTv687B2x1RsmZb3VDHfmrQ315Zk4?purpose=inline",
+      caption: "Тас шапқыштар"
+    },
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5XRXSbgLJzdeDffnd4VsViX8IAXrS7wNQNnAFG_yZ0w&s=10",
+      caption: "Үшкір тас құрал — ежелгі еңбек құралдарының бірі."
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/fpZXwAqhmmkn9MpBnytLZY19bdUNwyXeRA7BNGwmE_RsKfXj7FWI-DvwvKbU2oUD879o5LohFL4h9gQsMUYI0Rru2hUWAXeAFysiBhdWmbmTUSO3MMOZlmsCYUFMmmqM0kz8Icd5fb-ezYe0xhsrI9KVwUFBsUtjPNM5vCFALjQ?purpose=inline",
+      caption: "Тас қырғыштар"
+    },
+    
+  ],
+
+  points: [
+    "Ежелгі адамдар тасты жару, шабу және қырлау арқылы еңбек құралдарын жасаған. Құралдың жасалу тәсілі оның қолданылу мақсатына байланысты болды.",
+
+    "Шапқы тәрізді құралдар әртүрлі материалдарды өңдеуге және күнделікті еңбек әрекеттерін орындауға пайдаланылған болуы мүмкін.",
+
+    "Қырғыштар жануарлардың терісін және басқа материалдарды өңдеуге қолданылған. Олардың нақты қызметі пішіні мен археологиялық контекстіне қарай анықталады.",
+
+    "Үшкір тас құралдар аңшылықта және басқа да еңбек әрекеттерінде пайдаланылуы мүмкін. Олардың қызметін анықтау үшін ғалымдар құралдың құрылымы мен тозу іздерін зерттейді.",
+
+    "Тас құралдарының жасалу технологиясы уақыт өте келе өзгеріп, күрделене түсті. Бұл өзгерістер ежелгі адамдардың тәжірибесі мен еңбек дағдыларының дамуын көрсетеді.",
+
+    "Қазақстан аумағындағы Бөріқазған, Тәңірқазған және Шақпақата сияқты археологиялық орындардан табылған тас бұйымдар тас дәуіріндегі адамдардың еңбек әрекетін зерттеуде маңызды рөл атқарады.",
+
+    "Археологтар тас құралдарының пішінін, өңделу ерекшеліктерін және табылған қабатын салыстыру арқылы олардың мерзімі мен тарихи маңызын анықтайды. Нақты құралдың қызметі мен мерзімі ғылыми деректерге сүйене отырып белгіленеді.",
+
+    "Тас құралдарын жасау кезінде ежелгі адамдар тастың беріктігі мен сыну ерекшеліктерін ескерген. Бұл оларға қажетті пішіндегі құралдарды дайындауға мүмкіндік берген.",
+
+    "Археологиялық қазбалардан табылған тас бұйымдар ежелгі адамдардың күнделікті тұрмысы мен шаруашылығы туралы мәлімет береді.",
+
+    "Әртүрлі тұрақтардан табылған құралдарды салыстыру арқылы ғалымдар ежелгі адамдардың технологиялық тәжірибесіндегі ұқсастықтар мен айырмашылықтарды анықтайды.",
+
+    
+]
+},
+
+
+      
+"Археологиялық олжалар": {
+  intro: "Археологиялық олжалар — ежелгі адамдардың өмірі, тұрмысы мен мәдениетін зерттеуге мүмкіндік беретін заттай деректер. Оларға тас құралдар, қыш ыдыстар, әшекейлер, жануар сүйектері және ежелгі тұрақтардың қалдықтары жатады. Олжаның табылған орны мен басқа заттармен байланысы оның тарихи маңызын анықтауға көмектеседі.",
+
+  images: [
+    {
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAtauLWQoxJHT4oBqquufYY0l6ZQeGLx5d6zF2SaXcBg&s=10",
+      caption: "Тас дәуірінен сақталған археологиялық бұйымдар.",
+      link: "https://www.gylymordasy.gov.kz/en/museum/muzey-arkheologii/the-world-of-ancient-eras/"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/dfgv77MS4b9wQE1ud0l-oMWzeTi70JKHF0wgkKWPs7CY8__BpP2cVynn4MsIBZvaTdIK4L0nBakOdh64OTjK9GxTQTSI-DTiJy2sBnq_mXnkSoPD4LpmvrOe5P5x7mRBCu33gO3UPdt4vDUkJoH37DAIefWx5322lfdOsBpg-bdZgxsTWQUcWt5nKgkTFBAZ?purpose=fullsize",
+      caption: "Ежелгі тас құралдары.",
+      link: "https://humanorigins.si.edu/evidence/behavior/stone-tools"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/gX1lmFI4wda_Bynd-lGNqr_iEuR1eMH7_GMndWIfudPE6nm5BinuJgqHOoG8ZXHhb9_U9kE-w3pJh9BPaepGRicEfQ8Gi4RvlHxvvHD51j6BdjbFItzXuW4rhMHEugmRjRbBwmJKi6gM3EJVw3fYBJmSGZDAOWoHClCMe-bLJqQ?purpose=inline",
+      caption: "Неолит дәуірінің бұйымдары",
+      link: "https://artifacts.kz/"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/CYntN3UavAzYRfBcp_edyDnoyCdaG3uGcU0EF-PS9BPd0oDW_7RkE5gn8hwPNLlkgpisSoDSI2XkNll17MBM0BpuNF8g_ds2r3OppUIfNcsRl7BHkbhddIWAKnOeH_bpq9mwT27fUydg7HmJHy-gGCfb13hTtaq4LFFDcFm8hV4?purpose=inline",
+      caption: "Палеолит дәуірінің тас бұйымдары",
+      link: "https://bozok.kz/en/museum-collection/"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/HDEaA7zcCO-uDul5hLjzM4k2sIS-9gBk_NbMKMioTFi9YuciLilLhZI9B6VVjyZsAwqCVSWML2kUstrZNJ_7LvWwtEdJDeodW2t7CWTkDfD0Y7fu8YAQXQx--xdW9o96VlGhyDNatGKdeZCKI8dghZwEAbEQKRLrwcmYzS9-fFraBu3d1iaE5wqMhtWdevDm?purpose=fullsize",
+      caption: "Палеолиттік шапқыш құрал",
+      link: "https://artifacts.kz/"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/pjxZw_lS57prG3QjVjQthU-9e8V1Y8iMqDkf1hjqpoyBa9VhjC4IBW6tDBPTeXzjNnpNQswYM9GFeOTn-UUFiCoOKrBr-e_0Z6c6qN_a0cFFdKZehGdJqE_O_A-TmJKzQYagGtsBiSrPlJL-tfJw0_7JS5HDU5xIH_LgTZh75LTY2c251ze_7j7D4WLVGlC2?purpose=fullsize",
+      caption: "Тас жаңқалары мен қалақшалар",
+      link: "https://www.gylymordasy.gov.kz/en/museum/muzey-arkheologii/"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/ophoqqqMI9_z0poP4Kw7UuPSpVxjRIvdZJ0Q-JfFNany9Ji4eZqAUvpomx_n2SrCQDROTCr7HLm_b6yh2_TO5cNcze_jOCXPsqxVErXm7Ll8E3ZUwWvX5guQnBaZvMuLMvkyV7x-L6H6-ElsNYg03xJle7tZM654c4WDwDVLpjJFmkzL3ERrjQMfiwtyB-UF?purpose=fullsize",
+      caption: "Жылтыратылған тас балта",
+      link: "https://www.csmrk.kz/public/index.php/en/collections"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/hK653oQnhQUzqMGHQlC-Oa5BH4CO7v1i7r1C7wbuZOnxV1sBFj0QsoyFCO-WvuJTjv-Ij9sEY3EhpO1YvLNjYUG881MEnd9P9nl5gKDoIF0NUcpxvVlngPxLeHZZkTayaWfPM2z9SCJ0bTxIINmQAF6S6DekrBEj0xtI1QxRvWg?purpose=inline",
+      caption: "Ежелгі қыш ыдыстар",
+      link: "https://www.gylymordasy.gov.kz/en/museum/muzey-arkheologii/"
+    },
+    {
+      src: "https://images.openai.com/static-rsc-4/2sFSJgE8VqmOTsf5crrgg0YHs1rbJ7WyP15Y2hJ3ZxThog8HkmF8OKunUT7ZIZGK_lngj5xHutyEagtUejRx3TDKkyk_sJa-LLM7EL3uqUUlIXANQ6V1F_xwUojMi4DvCuOhvIAUqo9LtIMZkc3waQ3CRSD3VduiXhXAcpnmrzLLKvsP4NbLsqxHvmW9QzKl?purpose=fullsize",
+      caption: "Қосжақты өңделген тас құрал",
+      link: "https://nmrk.kz/en/structure/exhibition-activities/"
+    }
+  ],
+
+  points: [
+    "Археологиялық олжаларға тас құралдар, қыш ыдыстар, әшекейлер, сүйек бұйымдар және басқа да заттар жатады.",
+
+    "Олжаның табылған орны мен мәдени қабаты оның мерзімін және тарихи маңызын анықтауға көмектеседі.",
+
+    "Тас құралдардың пішіні мен өңделу ерекшеліктері ежелгі адамдардың еңбек дағдылары туралы мәлімет береді.",
+
+    "Қыш ыдыстардың пішіні, өрнегі және жасалу әдісі ежелгі қоғамдардың тұрмысы мен қолөнерін зерттеуге мүмкіндік береді.",
+
+    "Әшекейлер мен сәндік бұйымдар ежелгі адамдардың мәдениеті мен эстетикалық талғамын түсінуге көмектеседі.",
+
+    "Жануар сүйектері мен өсімдік қалдықтары ежелгі адамдардың қоршаған ортасы мен қоректену ерекшеліктерін зерттеуде маңызды.",
+
+    "Археологтар олжаларды стратиграфия, салыстырмалы типология және зертханалық талдау арқылы зерттейді.",
+
+    "Қазақстандағы Бөріқазған, Тәңірқазған және Шақпақата сияқты ескерткіштер тас дәуірін зерттеуде маңызды орын алады.",
+
+    "Археологиялық олжаның ғылыми құндылығы оның табылған орны, мерзімі және басқа деректермен байланысы арқылы анықталады.",
+
+    "Археологиялық олжаларды қалпына келтіру және сақтау жұмыстары тарихи мұраны келешек ұрпаққа жеткізуге мүмкіндік береді.",
+
+    "Табылған бұйымдардың өлшемі, материалы және жасалу технологиясы арнайы құжаттарға тіркеліп, ғылыми қорларда сақталады.",
+
+    "Археологиялық олжаларды өзара салыстыру арқылы әртүрлі тарихи кезеңдердегі мәдени өзгерістер мен технологиялық жетістіктер анықталады.",
+
+    "Заманауи цифрлық технологиялар мен 3D модельдеу әдістері археологиялық бұйымдарды виртуалды түрде зерттеп, көпшілікке таныстыруға көмектеседі."
+  ]
+},
+
+"Ғылыми деректер": {
+  intro: "ARCHEON сайтының тарихи мәліметтері Қазақстан тарихына арналған электрондық ресурстардан, археологиялық ғылыми жарияланымдардан және музей материалдарынан жинақталды. Сайтта ежелгі адамдардың өмірі, тас дәуірінің ескерткіштері мен археологиялық олжалар туралы ақпараттар ұсынылған. Бөлімдерді безендіруде ашық интернет-ресурстарда жарияланған көрнекі суреттер пайдаланылды.",
+
+  images: [
+  
+    {
+      src: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=900&q=85",
+      caption: "Ғылыми кітапхана және зерттеу материалдары."
+    }
+  ],
+
+  points: [
+    "Сайттағы тарихи ақпараттарды дайындау кезінде Қазақстан тарихына арналған электрондық ресурстар мен археологиялық жарияланымдар пайдаланылды.",
+
+    "Қазақстан тарихы порталы (e-history.kz) ежелгі дәуірден қазіргі кезеңге дейінгі тарихи материалдарды, ғылыми мақалаларды және электрондық кітаптарды ұсынады.",
+
+    "Қазақстанның археологиялық порталы (archaeology.kz) археологиялық ескерткіштер, зерттеу экспедициялары және ғылыми жарияланымдар туралы мәліметтер береді.",
+
+    "Ғылыми еңбектер мен музей материалдары ежелгі тұрақтар, табылған бұйымдар және тарихи кезеңдер туралы ақпаратты толықтыруға көмектеседі.",
+
+    "Сайттың көрнекі бөлігінде ашық интернет-ресурстарда жарияланған иллюстрациялық суреттер қолданылды. Олар тарихи тақырыптарды түсінікті әрі көрнекі түрде таныстыруға арналған.",
+
+    "ARCHEON жобасының мақсаты — Қазақстанның ежелгі тарихы мен археологиялық мұрасын пайдаланушыларға қолжетімді, көрнекі және интерактивті форматта ұсыну.",
+
+    "Археологиялық деректерді бірнеше дереккөзбен салыстыру тарихи ақпараттың дұрыстығын бағалауға көмектеседі.",
+
+    "Сайттағы интерактивті бөлімдер пайдаланушыларға ежелгі тарих туралы мәліметтерді көрнекі түрде меңгеруге мүмкіндік береді.",
+
+    "ARCHEON жобасы археологиялық мұраны танытуға, тарихи білімді кеңейтуге және Қазақстанның ежелгі тарихына қызығушылықты арттыруға бағытталған."
+]
+}
+
+};
+
+// Тақырып терезесін ашу
+function showTopic(name) {
+  const data = topicData[name];
+  if (!data) return;
+
+  document.getElementById("modalTitle").textContent = name;
+
+  const content = document.getElementById("modalContent");
+  content.replaceChildren();
+
+  // Суреттер галереясы
+  const gallery = document.createElement("div");
+  gallery.className = "modal-gallery";
+
+  const imageWrap = document.createElement("div");
+  imageWrap.className = "gallery-image-wrap";
+
+  const img = document.createElement("img");
+  img.alt = name + " тақырыбына қатысты сурет";
+
+  const images = data.images?.length
+    ? data.images
+    : [{ src: data.image, caption: "Тақырыптық иллюстрация" }];
+
+  const prev = document.createElement("button");
+  prev.className = "gallery-arrow gallery-prev";
+  prev.type = "button";
+  prev.textContent = "‹";
+  prev.setAttribute("aria-label", "Алдыңғы сурет");
+
+  const next = document.createElement("button");
+  next.className = "gallery-arrow gallery-next";
+  next.type = "button";
+  next.textContent = "›";
+  next.setAttribute("aria-label", "Келесі сурет");
+
+  imageWrap.append(img, prev, next);
+
+  const caption = document.createElement("p");
+  caption.className = "gallery-caption";
+
+  const dots = document.createElement("div");
+  dots.className = "gallery-dots";
+
+  let current = 0;
+  const dotButtons = [];
+
+  function renderImage(index) {
+    current = (index + images.length) % images.length;
+
+    img.src = images[current].src;
+    caption.textContent =
+      (images[current].caption || name) +
+      " · " + (current + 1) + " / " + images.length;
+
+    dotButtons.forEach((dot, i) => {
+      dot.classList.toggle("active", i === current);
+      dot.setAttribute(
+        "aria-current",
+        i === current ? "true" : "false"
+      );
+    });
+
+    // Бір ғана сурет болса, стрелкаларды жасыру
+    prev.hidden = images.length <= 1;
+    next.hidden = images.length <= 1;
+    dots.hidden = images.length <= 1;
+  }
+
+  images.forEach((image, index) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "gallery-dot";
+    dot.setAttribute("aria-label", (index + 1) + "-сурет");
+    dot.addEventListener("click", () => renderImage(index));
+
+    dotButtons.push(dot);
+    dots.appendChild(dot);
+  });
+
+  prev.addEventListener("click", () => renderImage(current - 1));
+  next.addEventListener("click", () => renderImage(current + 1));
+
+  
+  
+const infoTexts = {
+  "Ежелгі адамдар":
+    "Homo habilis (епті адам) қарапайым тас құралдарын жасаған. Homo erectus (тік жүретін адам) тік жүруге бейімделіп, күрделірек құралдарды пайдаланған. Homo sapiens (саналы адам) ойлау қабілетімен, өнерімен және мәдениетімен ерекшеленеді.",
+
+  "Қазақстандағы тұрақтар":
+    "Бөріқазған мен Тәңірқазған — Қаратау өңіріндегі төменгі палеолит ескерткіштері. Шақпақата Маңғыстау өңірінде орналасқан. Арыстанды, Майбұлақ және Қараүңгір тұрақтары да Қазақстанның тас дәуірін зерттеуде маңызды.",
+
+  "Тас құралдары":
+    "Ежелгі адамдар тастан шапқылар, қырғыштар және үшкір құралдар жасаған. Олар бұл құралдарды аңшылықта, тері өңдеуде және күнделікті тіршілікте пайдаланған.",
+
+  "Археологиялық олжалар":
+    "Археологиялық олжаларға тас құралдар, жануар сүйектері және ежелгі тұрмыс іздері жатады. Ғалымдар оларды зерттеу арқылы адамдардың өмірі мен еңбек әрекетін анықтайды.",
+
+  "Ғылыми деректер":
+    "Археологтар ежелгі тарихты қазба жұмыстары, табылған заттар және зертханалық талдаулар арқылы зерттейді. Деректерді салыстыру арқылы ескерткіштердің мерзімі мен тарихи маңызы анықталады."
+};
+
+const info = document.createElement("div");
+info.className = "gallery-info";
+
+const infoTitle = document.createElement("strong");
+infoTitle.textContent = name + " туралы";
+
+const infoText = document.createElement("p");
+infoText.textContent =
+  infoTexts[name] || "Бұл тақырып бойынша қосымша ақпарат.";
+
+info.append(infoTitle, infoText);
+
+// Галереяға сурет, атау, ақпарат және нүктелерді қосу
+gallery.append(imageWrap, caption, info, dots);
+content.appendChild(gallery);
+
+const sourcesByTopic = {
+  "Ежелгі адамдар": [
+    {
+      title: "Homo habilis — епті адам",
+      url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-habilis"
+    },
+    {
+      title: "Homo erectus — тік жүретін адам",
+      url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-erectus"
+    },
+    {
+      title: "Homo sapiens — саналы адам",
+      url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens"
+    }
+  ],
+
+ 
+"Қазақстандағы тұрақтар": [
+  {
+    title: "Бөріқазған тұрағы — төменгі палеолит",
+    url: "https://www.ezhelgi-taraz.kz/kk/page/b-ri-az-an-t-ra-y-t-mengi-paleolit"
+  },
+  {
+    title: "Тәңірқазған тұрағы — Archaeology.kz",
+    url: "https://archaeology.kz/heritages/648-tanirqazgan-turagy"
+  },
+  {
+    title: "Қазақстан аумағындағы палеолит ескерткіштері",
+    url: "https://e-history.kz/media/scorm/251/300/text/text.htm"
+  }
+],
+
+
+  "Тас құралдары": [
+  {
+    title: "Қазақстан аумағындағы тас дәуірінің тұрақтары",
+    url: "https://textbooks.nis.edu.kz/wp-content/uploads/pdf_2020/G5_%D2%9A%D0%B0%D0%B7%D0%B0%D2%9B%D1%81%D1%82%D0%B0%D0%BD%20%D1%82%D0%B0%D1%80%D0%B8%D1%85%D1%8B_LB.pdf"
+  },
+  {
+    title: "Қазақстандағы тас дәуірі тұрақтарын зерттеу",
+    url: "https://iie.kz/?page_id=147"
+  },
+  {
+    title: "Археология музейі",
+    url: "https://gylymordasy.gov.kz/museum/muzey-arkheologii/"
+  }
+],"Археологиялық олжалар": [
+  {
+    title: "Қазақстан археологиясы музейі",
+    url: "https://gylymordasy.gov.kz/museum/muzey-arkheologii/"
+  },
+  {
+    title: "Бөріқазған тұрағынан табылған олжалар",
+    url: "https://www.ezhelgi-taraz.kz/kk/page/b-ri-az-an-t-ra-y-t-mengi-paleolit"
+  },
+  {
+    title: "Қазақстан аумағындағы тас дәуірінің тұрақтары",
+    url: "https://textbooks.nis.edu.kz/wp-content/uploads/pdf_2020/2021/G5_%D2%9A%D0%B0%D0%B7%D0%B0%D2%9B%D1%81%D1%82%D0%B0%D0%BD%20%D1%82%D0%B0%D1%80%D0%B8%D1%85%D1%8B_THB_KZ.pdf"
+  }
+],
+
+  "Ғылыми деректер": [
+    {
+      title: "Қазақстан археологиясы",
+      url: "https://archaeology.kz/"
+    },
+    {
+      title: "Smithsonian Human Origins Program",
+      url: "https://humanorigins.si.edu/"
+    }
+  ]
+};
+
+const topicSources = sourcesByTopic[name];
+
+if (topicSources) {
+  const sourcesCard = document.createElement("div");
+  sourcesCard.className = "ancient-sources-card";
+
+  const title = document.createElement("h3");
+  title.textContent = "📚 Қосымша ғылыми дереккөздер";
+  sourcesCard.appendChild(title);
+
+  const intro = document.createElement("p");
+  intro.textContent =
+    "Осы тақырып бойынша қосымша ақпаратты мына ресурстардан оқыңыз:";
+  sourcesCard.appendChild(intro);
+
+  topicSources.forEach(source => {
+    const link = document.createElement("a");
+    link.href = source.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = source.title + " ↗";
+    sourcesCard.appendChild(link);
+  });
+
+  gallery.appendChild(sourcesCard);
+}
+
+
+
+
+  // Ақпараттық мәтін
+  const copy = document.createElement("div");
+
+  const intro = document.createElement("p");
+  intro.textContent = data.intro;
+  copy.appendChild(intro);
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Негізгі мәліметтер";
+  copy.appendChild(heading);
+
+  const list = document.createElement("ul");
+
+  data.points.forEach(point => {
+    const li = document.createElement("li");
+    li.textContent = point;
+    list.appendChild(li);
+  });
+
+  copy.appendChild(list);
+
+  
+
+  content.appendChild(copy);
+  // Авторлық құқық туралы ескерту — модаль терезенің ең төменінде
+const disclaimer = document.createElement("p");
+disclaimer.className = "copyright-disclaimer";
+disclaimer.textContent =
+  "Ескерту: ARCHEON — оқу-ағартушылық мақсаттағы авторлық жоба. Кейбір суреттер мен мәліметтер сыртқы дереккөздерден алынған болуы мүмкін. Авторлық құқық тиісті құқық иелеріне тиесілі.";
+
+content.appendChild(disclaimer);
+
+  // Галереяның бірінші суретін көрсету
+  renderImage(0);
+
+  // Қалқымалы терезені ашу
+  document.getElementById("topicModal").classList.add("show");
+  document.body.style.overflow = "hidden";
+  document.querySelector(".modal-close").focus();
+}
+
+// Зерттеу мәзіріндегі батырмалар
+document.querySelectorAll(".topic-button").forEach(button => {
+  button.addEventListener("click", () => {
+    showTopic(button.dataset.topic);
+  });
+});
+
+// Тас дәуірінің кезеңдерін ашу және жабу
+document.querySelectorAll(".period-toggle").forEach(button => {
+  button.addEventListener("click", () => {
+    const card = button.closest(".period-card");
+    const opening = !card.classList.contains("open");
+
+    card.classList.toggle("open", opening);
+    button.setAttribute("aria-expanded", String(opening));
+  });
+});
+
+// Қалқымалы терезені жабу
+function closeModal() {
+  document.getElementById("topicModal").classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+document.querySelector(".modal-close").addEventListener("click", closeModal);
+
+// Қара фонды басқанда жабу
+document.getElementById("topicModal").addEventListener("click", event => {
+  if (event.target.id === "topicModal") {
+    closeModal();
+  }
+});
+
+// Escape пернесімен жабу
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
+</script>
+<script>
+function toggleOverview(button) {
+    const content = button.previousElementSibling;
+    content.classList.toggle('expanded');
+
+    const isExpanded = content.classList.contains('expanded');
+
+  
+}
+</script>
+<script src="script.js"></script>
+</body>
+</body>
+</html>

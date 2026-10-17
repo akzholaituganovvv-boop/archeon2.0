@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10100d">
+<title>ARCHEON AI — Виртуалды көмекші</title>
+<style>
+:root{--bg:#10100d;--panel:#191811;--panel2:#201e16;--gold:#e9bd68;--gold2:#b88a3f;--muted:#b6aa91;--line:rgba(233,189,104,.28);--glow:rgba(233,189,104,.18);--text:#f4ead5}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 70% 45%,#272215 0%,#15140f 36%,#0d0d0b 78%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+button{font:inherit}
+.topbar{height:70px;padding:0 clamp(18px,4vw,54px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(12,12,10,.7)}
+.brand{display:flex;align-items:center;gap:12px;letter-spacing:.2em;font-weight:800;color:var(--gold)}
+.brand-mark{width:35px;height:35px;border:1px solid var(--gold2);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 18px var(--glow);font-size:18px}
+.top-label{font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.back{color:var(--muted);text-decoration:none;font-size:13px;border:1px solid var(--line);padding:10px 14px;border-radius:4px;transition:.2s}
+.back:hover{color:var(--gold);border-color:var(--gold)}
+main{width:min(1440px,100%);margin:0 auto;padding:clamp(22px,4vw,52px)}
+.intro{margin-bottom:24px}
+.eyebrow{color:var(--gold2);font-size:11px;letter-spacing:.25em;text-transform:uppercase;margin:0 0 10px}
+h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(29px,4vw,48px);margin:0;letter-spacing:.025em}
+.intro p{color:var(--muted);max-width:690px;font-size:14px;line-height:1.7;margin:12px 0 0}
+.workspace{display:grid;grid-template-columns:minmax(270px, .72fr) minmax(0,1.65fr);gap:20px;min-height:590px}
+.questions-panel,.holo-panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(31,29,21,.94),rgba(17,17,13,.95));border-radius:8px;overflow:hidden;min-width:0}
+.panel-head{padding:19px 20px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.panel-head h2{font-size:12px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0}
+.online{font-size:10px;letter-spacing:.12em;color:#c6d2a0;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.online:before{content:"";width:6px;height:6px;background:#a6bd72;border-radius:50%;box-shadow:0 0 9px #a6bd72}
+.category-wrap{padding:14px 14px 4px;display:flex;flex-wrap:wrap;gap:7px}
+.category{border:1px solid rgba(233,189,104,.2);background:transparent;color:var(--muted);padding:8px 10px;border-radius:4px;font-size:11px;cursor:pointer;transition:.2s}
+.category.active,.category:hover{background:rgba(233,189,104,.12);border-color:var(--gold2);color:var(--gold)}
+.question-list{padding:10px 14px 18px;display:grid;gap:8px}
+.question{width:100%;text-align:left;display:flex;align-items:center;gap:11px;padding:12px;border:1px solid rgba(233,189,104,.13);background:rgba(255,255,255,.015);color:#e8deca;border-radius:5px;cursor:pointer;line-height:1.4;font-size:13px;transition:transform .18s,border-color .18s,background .18s}
+.question:hover,.question.selected{border-color:var(--gold2);background:rgba(233,189,104,.085);transform:translateX(2px)}
+.q-num{flex:0 0 25px;width:25px;height:25px;display:grid;place-items:center;border:1px solid rgba(233,189,104,.3);color:var(--gold);font-size:10px;border-radius:3px}
+.q-arrow{margin-left:auto;color:var(--gold2);font-size:16px}
+.panel-note{padding:0 18px 17px;color:#8e846f;font-size:11px;line-height:1.6}
+.holo-panel{position:relative;display:flex;flex-direction:column;min-height:590px;background:radial-gradient(ellipse at 50% 43%,rgba(164,119,39,.12),transparent 48%),linear-gradient(145deg,rgba(29,27,19,.93),rgba(12,13,10,.98))}
+.holo-panel:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(233,189,104,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(233,189,104,.025) 1px,transparent 1px);background-size:35px 35px;mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+.holo-top{z-index:1;display:flex;align-items:center;justify-content:space-between;padding:19px 22px;border-bottom:1px solid rgba(233,189,104,.16)}
+.holo-top strong{font-size:11px;letter-spacing:.18em;color:var(--gold);font-weight:600}
+.holo-top span{font-size:10px;letter-spacing:.12em;color:#8f846d}
+.holo-stage{position:relative;z-index:1;flex:1;min-height:390px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.orbit{position:absolute;width:min(66%,390px);aspect-ratio:1;border:1px solid rgba(233,189,104,.13);border-radius:50%;animation:orbit 22s linear infinite}
+.orbit:before,.orbit:after{content:"";position:absolute;border:1px dashed rgba(233,189,104,.18);border-radius:50%;inset:12%}
+.orbit:after{inset:25%;border-style:solid;opacity:.55}
+.orbit-dot{position:absolute;left:13%;top:23%;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 15px var(--gold)}
+.holo-floor{position:absolute;bottom:35px;width:min(70%,420px);height:60px;border:1px solid rgba(233,189,104,.3);border-radius:50%;transform:perspective(180px) rotateX(63deg);box-shadow:0 0 35px rgba(233,189,104,.09),inset 0 0 30px rgba(233,189,104,.08)}
+.robot{position:relative;width:210px;height:260px;z-index:2;filter:drop-shadow(0 0 17px rgba(233,189,104,.2));animation:float 4s ease-in-out infinite}
+.robot-halo{position:absolute;left:29px;top:4px;width:152px;height:150px;border:1px solid rgba(233,189,104,.4);border-radius:48% 48% 43% 43%;box-shadow:inset 0 0 25px rgba(233,189,104,.1),0 0 25px rgba(233,189,104,.07)}
+.robot-head{position:absolute;top:18px;left:43px;width:124px;height:110px;border:2px solid var(--gold2);border-radius:38px 38px 31px 31px;background:linear-gradient(140deg,rgba(233,189,104,.13),rgba(26,25,18,.92));box-shadow:inset 0 0 20px rgba(233,189,104,.09),0 0 24px rgba(233,189,104,.1)}
+.robot-head:before{content:"";position:absolute;top:-13px;left:56px;width:10px;height:12px;background:var(--gold2);border-radius:8px 8px 0 0;box-shadow:0 0 10px var(--gold)}
+.robot-head:after{content:"";position:absolute;left:58px;bottom:-14px;width:8px;height:12px;background:var(--gold2)}
+.robot-ear{position:absolute;top:52px;width:13px;height:29px;border:2px solid var(--gold2);border-radius:5px;background:#211e14}.robot-ear.left{left:-9px}.robot-ear.right{right:-9px}
+.eyes{position:absolute;left:25px;right:25px;top:38px;display:flex;justify-content:space-between}
+.eye{width:18px;height:22px;border:1px solid #f5d48e;border-radius:50%;background:#f1c96e;box-shadow:0 0 15px rgba(233,189,104,.9);animation:blink 5s infinite}
+.robot-mouth{position:absolute;bottom:19px;left:43px;width:36px;height:7px;border:1px solid var(--gold);border-radius:0 0 10px 10px;opacity:.85}
+.robot-body{position:absolute;top:141px;left:58px;width:94px;height:91px;border:2px solid var(--gold2);border-radius:25px 25px 18px 18px;background:linear-gradient(145deg,rgba(233,189,104,.12),rgba(23,22,16,.94));box-shadow:inset 0 0 22px rgba(233,189,104,.09)}
+.chest-core{position:absolute;left:28px;top:22px;width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 17px rgba(233,189,104,.2)}
+.chest-core:after{content:"A";font-family:Georgia,serif;color:var(--gold);font-size:18px}
+.robot-arm{position:absolute;top:151px;width:22px;height:65px;border:1px solid var(--gold2);border-radius:12px;background:rgba(233,189,104,.08)}.robot-arm.left{left:30px;transform:rotate(12deg)}.robot-arm.right{right:30px;transform:rotate(-12deg)}
+.robot-leg{position:absolute;top:222px;width:25px;height:28px;border:1px solid var(--gold2);border-radius:0 0 9px 9px;background:#211e14}.robot-leg.left{left:76px}.robot-leg.right{right:76px}
+.scanline{position:absolute;z-index:3;left:0;right:0;height:2px;top:5%;background:linear-gradient(90deg,transparent,rgba(233,189,104,.5),transparent);opacity:.35;animation:scan 5s linear infinite;pointer-events:none}
+.holo-status{position:relative;z-index:3;text-align:center;padding:0 18px 14px}
+.status-main{color:var(--gold);font-size:12px;letter-spacing:.17em;text-transform:uppercase;margin:0 0 8px}
+.status-sub{color:#9b9079;font-size:12px;line-height:1.6;margin:0;min-height:19px}
+.visualizer{height:28px;display:flex;align-items:center;justify-content:center;gap:4px;margin-top:10px;opacity:.45}
+.visualizer i{display:block;width:3px;height:5px;border-radius:3px;background:var(--gold2)}
+.speaking .visualizer{opacity:1}.speaking .visualizer i{animation:wave .65s ease-in-out infinite alternate}.speaking .visualizer i:nth-child(2n){animation-delay:.2s}.speaking .visualizer i:nth-child(3n){animation-delay:.35s}
+.speaking .robot-mouth{height:15px;animation:talk .25s infinite alternate}.speaking .eye{box-shadow:0 0 22px var(--gold)}
+.controls{position:relative;z-index:2;display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding:15px 20px 20px;border-top:1px solid rgba(233,189,104,.15)}
+.control{border:1px solid var(--line);background:rgba(233,189,104,.04);color:var(--muted);border-radius:4px;padding:10px 15px;cursor:pointer;font-size:11px;letter-spacing:.05em;transition:.2s}.control:hover:not(:disabled){border-color:var(--gold);color:var(--gold);background:rgba(233,189,104,.1)}.control.primary{background:var(--gold);color:#21190b;border-color:var(--gold);font-weight:700}.control:disabled{opacity:.35;cursor:not-allowed}
+.footer-note{text-align:center;color:#726a58;font-size:10px;letter-spacing:.08em;padding:18px 0 0}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes blink{0%,45%,49%,100%{transform:scaleY(1)}47%{transform:scaleY(.12)}}
+@keyframes scan{0%{top:5%;opacity:0}15%{opacity:.4}85%{opacity:.4}100%{top:95%;opacity:0}}
+@keyframes talk{from{transform:scaleY(.65)}to{transform:scaleY(1.35)}}
+@keyframes wave{from{height:4px}to{height:24px}}
+@media(max-width:850px){.workspace{grid-template-columns:1fr;min-height:0}.questions-panel{order:2}.holo-panel{order:1;min-height:540px}.holo-stage{min-height:350px}.question-list{grid-template-columns:repeat(2,minmax(0,1fr))}.panel-note{padding-top:0}}
+@media(max-width:520px){.topbar{height:62px}.brand{font-size:12px;letter-spacing:.14em}.brand-mark{width:30px;height:30px}.top-label{display:none}main{padding:22px 13px}.holo-panel{min-height:485px}.holo-stage{min-height:310px}.robot{transform:scale(.85);margin-top:-8px}.question-list{grid-template-columns:1fr}.panel-head{padding:16px}.category-wrap{padding-inline:12px}.controls{gap:7px}.control{padding:10px 12px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">A</span><span>ARCHEON <span style="color:#8f846d;font-weight:400">AI</span></span></div>
+  <div class="top-label">Археология әлеміне саяхат</div>
+  <a class="back" href="explore.html">← Сайтқа оралу</a>
+</header>
+<main>
+  <section class="intro">
+    <p class="eyebrow">Виртуалды зерттеуші · 01</p>
+    <h1>Сәлем! Мен — ARCHEON көмекшісімін.</h1>
+    <p>Сұрақты таңда. Мен археология мен ежелгі Қазақстан туралы ақпаратты дауыстап айтып беремін.</p>
+  </section>
+  <section class="workspace" aria-label="Виртуалды көмекші">
+    <aside class="questions-panel">
+      <div class="panel-head"><h2>Сұрақтар каталогы</h2><span class="online">ЖҮЙЕ ДАЙЫН</span></div>
+      <div class="category-wrap" role="tablist" aria-label="Сұрақ санаттары">
+        <button class="category active" data-category="all" role="tab" aria-selected="true">Барлығы</button>
+        <button class="category" data-category="site" role="tab" aria-selected="false">ARCHEON</button>
+        <button class="category" data-category="arch" role="tab" aria-selected="false">Археология</button>
+        <button class="category" data-category="eras" role="tab" aria-selected="false">Дәуірлер</button>
+      </div>
+      <div class="question-list" id="questionList">
+        <button class="question" data-id="archeon" data-category="site"><span class="q-num">01</span><span>ARCHEON деген не?</span><span class="q-arrow">›</span></button>
+        <button class="question" data-id="maksat" data-category="site"><span class="q-num">02</span><span>Бұл сайт не үшін жасалды?</span><span class="q-arrow">›</span></button>
+        <button class="question" data-id="arheologia" data-category="arch"><span class="q-num">03</span><span>Археология деген не?</span><span class="q-arrow">›</span></button>
+        <button class="question" data-id="arheolog" data-category="arch"><span class="q-num">04</span><span>Археолог не істейді?</span><span class="q-arrow">›</span></button>
+        <button class="question" data-id="kazba" data-category="arch"><span class="q-num">05</span><span>Қазба жұмыстары қалай жүргізіледі?</span><span class="q-arrow">›</span></button>
+      </div>
+      <div class="panel-note">Жауап экранға мәтін болып шығарылмайды — көмекші оны дауыстап айтады. Дыбыс ойнатылмаса, браузердің дыбыс параметрлерін тексер.</div>
+    </aside>
+    <section class="holo-panel" id="holoPanel" aria-label="ARCHEON голограммасы">
+      <div class="holo-top"><strong>ГОЛОГРАММАЛЫҚ ИНТЕРФЕЙС</strong><span>CORE / 01</span></div>
+      <div class="holo-stage">
+        <div class="orbit"><span class="orbit-dot"></span></div>
+        <div class="holo-floor"></div>
+        <div class="scanline"></div>
+        <div class="robot" aria-hidden="true">
+          <div class="robot-halo"></div>
+          <div class="robot-head"><span class="robot-ear left"></span><span class="robot-ear right"></span><div class="eyes"><span class="eye"></span><span class="eye"></span></div><span class="robot-mouth"></span></div>
+          <div class="robot-body"><span class="chest-core"></span></div>
+          <span class="robot-arm left"></span><span class="robot-arm right"></span><span class="robot-leg left"></span><span class="robot-leg right"></span>
+        </div>
+      </div>
+      <div class="holo-status" aria-live="polite">
+        <p class="status-main" id="statusMain">ЖҮЙЕ ДАЙЫН</p>
+        <p class="status-sub" id="statusSub">Жауап алу үшін сол жақтан сұрақ таңда.</p>
+        <div class="visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="controls">
+        <button class="control primary" id="repeatBtn" disabled>↻ Қайталау</button>
+        <button class="control" id="stopBtn" disabled>■ Тоқтату</button>
+      </div>
+    </section>
+  </section>
+  <div class="footer-note">ARCHEON · ҚАЗАҚСТАННЫҢ ЕЖЕЛГІ ТАРИХЫ</div>
+</main>
+<script>
+(() => {
+  'use strict';
+  const audioAnswers = {
+    archeon: 'archeon.mp3',
+    maksat: 'maksat.mp3',
+    arheologia: 'arheologia.mp3',
+    arheolog: 'arheolog.mp3',
+    kazba: 'kazba.mp3'
+  };
+  const spokenAnswers = {
+    tas: 'Тас дәуірі — адамзат тарихындағы ең ұзақ кезең. Бұл уақытта адамдар негізінен тастан жасалған құралдарды пайдаланды. Тас дәуірі палеолит, мезолит және неолит кезеңдеріне бөлінеді.',
+    kola: 'Қола дәуірінде адамдар мыс пен қалайының қорытпасы — қоладан еңбек құралдары мен қару жасай бастады. Қазақстан аумағында мал шаруашылығы, металл өңдеу және қоныстар мәдениеті дамыды. Беғазы-Дәндібай мәдениеті Орталық Қазақстанның маңызды археологиялық ескерткіштерінің бірі.',
+    temir: 'Темір дәуірінде темірден құрал жасау кең тарады. Қазақстан даласында көшпелі мал шаруашылығы дамып, сақ сияқты тайпалық бірлестіктер тарих сахнасына шықты. Қорғандар мен олардан табылған бұйымдар сол кезеңнің мәдениетін зерттеуге көмектеседі.'
+  };
+  const questionList = document.getElementById('questionList');
+  const categories = [...document.querySelectorAll('.category')];
+  const panel = document.getElementById('holoPanel');
+  const statusMain = document.getElementById('statusMain');
+  const statusSub = document.getElementById('statusSub');
+  const repeatBtn = document.getElementById('repeatBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  let currentId = null;
+  let currentAudio = null;
+  let currentSpeech = '';
+  let activeQuestion = null;
+
+  function setStatus(main, sub, speaking = false) {
+    statusMain.textContent = main;
+    statusSub.textContent = sub;
+    panel.classList.toggle('speaking', speaking);
+  }
+  function stopPlayback() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      currentAudio.onended = null;
+      currentAudio.onerror = null;
+      currentAudio = null;
+    }
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    panel.classList.remove('speaking');
+    stopBtn.disabled = true;
+  }
+  function finishPlayback() {
+    panel.classList.remove('speaking');
+    stopBtn.disabled = true;
+    setStatus('ЖҮЙЕ ДАЙЫН', 'Басқа сұрақ таңдауға болады.');
+  }
+  function speakFallback(text) {
+    if (!('speechSynthesis' in window)) {
+      setStatus('АУДИО ҚОЛЖЕТІМСІЗ', 'Бұл браузер дауыстап оқуды қолдамайды. MP3 файлдарын тексер.');
+      return;
+    }
+    currentSpeech = text;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'kk-KZ';
+    utterance.rate = 0.92;
+    utterance.pitch = 1.0;
+    utterance.onstart = () => { setStatus('ЖАУАП БЕРІП ЖАТЫР', 'ARCHEON көмекшісі сөйлеп тұр…', true); stopBtn.disabled = false; };
+    utterance.onend = finishPlayback;
+    utterance.onerror = () => { panel.classList.remove('speaking'); stopBtn.disabled = true; setStatus('ДАУЫС ҚАТЕСІ', 'Браузерде дыбысқа рұқсат берілгенін тексер.'); };
+    window.speechSynthesis.speak(utterance);
+  }
+  function playQuestion(id, button) {
+    stopPlayback();
+    currentId = id;
+    activeQuestion = button;
+    document.querySelectorAll('.question').forEach(q => q.classList.toggle('selected', q === button));
+    repeatBtn.disabled = false;
+    setStatus('ЖАУАП ДАЙЫНДАЛУДА', 'Ақпарат жүктеліп жатыр…');
+    const filename = audioAnswers[id];
+    if (filename) {
+      const audio = new Audio(filename);
+      currentAudio = audio;
+      audio.preload = 'auto';
+      audio.onplay = () => { setStatus('ЖАУАП БЕРІП ЖАТЫР', 'ARCHEON көмекшісі сөйлеп тұр…', true); stopBtn.disabled = false; };
+      audio.onended = finishPlayback;
+      audio.onerror = () => {
+        currentAudio = null;
+        const fallbackText = spokenAnswers[id];
+        if (fallbackText) speakFallback(fallbackText);
+        else setStatus('АУДИО ТАБЫЛМАДЫ', 'audio/' + filename + ' файлын тексер.');
+      };
+      audio.play().catch(() => {
+        currentAudio = null;
+        const fallbackText = spokenAnswers[id];
+        if (fallbackText) speakFallback(fallbackText);
+        else setStatus('ДЫБЫСҚА РҰҚСАТ КЕРЕК', 'Сұрақты қайта басып көр.');
+      });
+    } else if (spokenAnswers[id]) {
+      currentSpeech = spokenAnswers[id];
+      speakFallback(currentSpeech);
+    }
+  }
+  questionList.addEventListener('click', event => {
+    const button = event.target.closest('.question');
+    if (!button) return;
+    playQuestion(button.dataset.id, button);
+  });
+  categories.forEach(category => category.addEventListener('click', () => {
+    categories.forEach(c => { const selected = c === category; c.classList.toggle('active', selected); c.setAttribute('aria-selected', String(selected)); });
+    const filter = category.dataset.category;
+    document.querySelectorAll('.question').forEach(q => { q.hidden = filter !== 'all' && q.dataset.category !== filter; });
+  }));
+  stopBtn.addEventListener('click', () => {
+    stopPlayback();
+    setStatus('ТОҚТАТЫЛДЫ', 'Жалғастыру үшін сұрақты қайта таңда.');
+  });
+  repeatBtn.addEventListener('click', () => {
+    if (currentId && activeQuestion) playQuestion(currentId, activeQuestion);
+  });
+  window.addEventListener('pagehide', stopPlayback);
+})();
+</script>
+</body>
+</html>

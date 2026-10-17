@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ARCHEON жобасында пайдаланылған Қазақстан тарихы мен археологияға қатысты әдебиеттер және электрондық ресурстар.">
+  <title>Пайдаланылған әдебиеттер | ARCHEON</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #101719;
+      --panel: #192224;
+      --gold: #d9b76a;
+      --gold-light: #f0d99c;
+      --text: #f2eee4;
+      --muted: #b5b8b2;
+      --border: rgba(217, 183, 106, 0.23);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #24312e 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navbar {
+      min-height: 76px;
+      padding: 16px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(16, 23, 25, 0.93);
+    }
+
+    .logo {
+      color: var(--gold);
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
+    .nav-link {
+      color: var(--text);
+      font-size: 14px;
+      transition: color 0.25s;
+    }
+
+    .nav-link:hover {
+      color: var(--gold);
+    }
+
+    .hero {
+      max-width: 1050px;
+      margin: auto;
+      padding: 75px 24px 55px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      letter-spacing: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(32px, 5vw, 53px);
+      line-height: 1.2;
+      color: var(--gold-light);
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 28px auto 0;
+      color: var(--gold);
+    }
+
+    .ornament::before,
+    .ornament::after {
+      content: "";
+      width: 65px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.65;
+    }
+
+    .container {
+      width: min(1000px, 90%);
+      margin: 0 auto 75px;
+    }
+
+    .intro {
+      padding: 22px 25px;
+      border-left: 3px solid var(--gold);
+      background: rgba(217, 183, 106, 0.06);
+      border-radius: 0 12px 12px 0;
+      color: #d6d6cd;
+      margin-bottom: 38px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--gold-light);
+      font-size: 23px;
+      margin: 38px 0 20px;
+    }
+
+    .section-title span {
+      font-size: 25px;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .source-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 23px;
+      background: linear-gradient(
+        135deg,
+        rgba(31, 43, 43, 0.97),
+        rgba(23, 32, 34, 0.97)
+      );
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition:
+        transform 0.25s,
+        border-color 0.25s,
+        box-shadow 0.25s;
+    }
+
+    .source-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(217, 183, 106, 0.7);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .source-number {
+      min-width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--gold);
+      font-weight: 800;
+      background: rgba(217, 183, 106, 0.07);
+    }
+
+    .source-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .source-content h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .source-content p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .source-url {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      transition: color 0.2s;
+    }
+
+    .source-url:hover {
+      color: var(--gold-light);
+      text-decoration: underline;
+    }
+
+    .book-note {
+      border: 1px solid var(--border);
+      background: rgba(217, 183, 106, 0.045);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 18px;
+    }
+
+    .book-note h3 {
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+
+    .book-note p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 30px;
+      padding: 20px 23px;
+      background: rgba(217, 183, 106, 0.07);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: #d5d0c2;
+      font-size: 14px;
+    }
+
+    .notice strong {
+      color: var(--gold-light);
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 35px;
+      padding: 12px 22px;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      color: var(--gold-light);
+      transition: all 0.25s;
+    }
+
+    .back-button:hover {
+      background: var(--gold);
+      color: #111817;
+    }
+
+    .footer {
+      padding: 27px 20px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 15px 5%;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .hero {
+        padding: 55px 20px 38px;
+      }
+
+      .container {
+        width: 92%;
+      }
+
+      .source-card {
+        padding: 17px;
+        gap: 12px;
+      }
+
+      .source-number {
+        min-width: 35px;
+        height: 35px;
+        font-size: 13px;
+      }
+
+      .source-content h3 {
+        font-size: 15px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: #222;
+      }
+
+      .navbar,
+      .back-button {
+        display: none;
+      }
+
+      .hero h1,
+      .section-title,
+      .source-content h3,
+      .source-url {
+        color: #222;
+      }
+
+      .hero p,
+      .source-content p,
+      .footer {
+        color: #444;
+      }
+
+      .source-card,
+      .book-note,
+      .intro,
+      .notice {
+        background: white;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a class="logo" href="index.html">ARCHEON</a>
+    <a class="nav-link" href="index.html">← Басты бетке оралу</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">ARCHEON · ҒЫЛЫМИ ДЕРЕККӨЗДЕР</div>
+
+      <h1>Пайдаланылған<br>әдебиеттер тізімі</h1>
+
+      <p>
+        Қазақстанның ежелгі тарихы мен археологиялық мұрасын
+        зерттеуге арналған ғылыми еңбектер, электрондық ресурстар
+        және тарихи материалдар.
+      </p>
+
+      <div class="ornament">✦</div>
+    </section>
+
+    <section class="container">
+
+      <div class="intro">
+        Бұл тізім ARCHEON жобасының тарихи мазмұнын дайындауға
+        қатысты электрондық ресурстар мен ғылыми әдебиеттерді
+        көрсетуге арналған. Дереккөздер сайттағы ақпаратты
+        толықтыру және археологиялық мұраны таныстыру үшін маңызды.
+      </div>
+
+      <h2 class="section-title">
+        <span>🌐</span> Электрондық ресурстар
+      </h2>
+
+      <div class="source-list">
+
+        <article class="source-card">
+          <div class="source-number">01</div>
+          <div class="source-content">
+            <h3>Қазақстан тарихы порталы — e-history.kz</h3>
+            <p>
+              Қазақстан тарихының әртүрлі кезеңдеріне арналған
+              мақалалар, тарихи материалдар және танымдық жарияланымдар.
+            </p>
+            <a class="source-url"
+               href="https://e-history.kz/"
+               target="_blank"
+               rel="noopener noreferrer">
+              e-history.kz ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="source-card">
+          <div class="source-number">02</div>
+          <div class="source-content">
+            <h3>Қазақстан археологиясына арналған ресурстар</h3>
+            <p>
+              Археологиялық ескерткіштер, зерттеу жұмыстары
+              және ғылыми жарияланымдар туралы ақпарат.
+            </p>
+            <a class="source-url"
+               href="https://archaeology.kz/"
+               target="_blank"
+               rel="noopener noreferrer">
+              archaeology.kz ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="source-card">
+          <div class="source-number">03</div>
+          <div class="source-content">
+            <h3>Қазақстан Республикасы Ұлттық музейі</h3>
+            <p>
+              Қазақстанның тарихи-мәдени мұрасы, музей қорлары
+              және тарихи жәдігерлер туралы материалдар.
+            </p>
+            <a class="source-url"
+               href="https://nationalmuseum.kz/"
+               target="_blank"
+               rel="noopener noreferrer">
+              nationalmuseum.kz ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="source-card">
+          <div class="source-number">04</div>
+          <div class="source-content">
+            <h3>UNESCO World Heritage Centre</h3>
+            <p>
+              Әлемдік тарихи және мәдени мұра нысандары туралы
+              халықаралық ақпараттық ресурс.
+            </p>
+            <a class="source-url"
+               href="https://whc.unesco.org/"
+               target="_blank"
+               rel="noopener noreferrer">
+              whc.unesco.org ↗
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      <h2 class="section-title">
+        <span>📚</span> Ғылыми әдебиеттер
+      </h2>
+
+      <div class="source-list">
+
+        
+<!-- 05. ҒЫЛЫМИ ЕҢБЕК -->
+<article class="source-card">
+  <div class="source-number">05</div>
+
+  <div class="source-content">
+    <h3>Марғұлан Ә.Х.</h3>
+
+    <p>
+      <em>Бегазы-Дандыбаевская культура Центрального Казахстана.</em>
+      — Алма-Ата: Наука, 1979.
+    </p>
+
+    <p>
+      Орталық Қазақстанның қола дәуірі мәдениетін зерттеуге
+      арналған ғылыми еңбек.
+    </p>
+
+    <a
+      class="source-url"
+      href="https://armunicat.nla.am/bib/998953"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Кітаптың библиографиялық жазбасы ↗
+    </a>
+  </div>
+</article>
+
+<!-- 06. АРХЕОЛОГИЯЛЫҚ ЖАРИЯЛАНЫМДАР -->
+<article class="source-card">
+  <div class="source-number">06</div>
+
+  <div class="source-content">
+    <h3>Қазақстан археологиясы бойынша ғылыми жарияланымдар</h3>
+
+    <p>
+      Ежелгі тұрақтар, археологиялық мәдениеттер, қоныстар,
+      қорғандар және археологиялық олжалар жөніндегі зерттеулер.
+    </p>
+
+    <p>
+      Қазақстанның археологиялық ескерткіштері туралы
+      ғылыми-ақпараттық материалдар.
+    </p>
+
+    <a
+      class="source-url"
+      href="https://archaeology.kz/ru/heritages/112-begazy-qorymy"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Бегазы қорымы туралы материал ↗
+    </a>
+
+    <br>
+
+    <a
+      class="source-url"
+      href="https://archaeology.kz/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Archaeology.kz басты сайты ↗
+    </a>
+  </div>
+</article>
+
+      </div>
+
+      <h2 class="section-title">
+        <span>🏺</span> Иллюстрациялық материалдар
+      </h2>
+
+      <div class="book-note">
+        <h3>Суреттер мен көрнекі материалдар</h3>
+        <p>
+          Сайтта пайдаланылған археологиялық ескерткіштердің,
+          тарихи жәдігерлердің және көне мәдениеттердің суреттері
+          үшін әр материалдың бастапқы жарияланған дереккөзін
+          көрсету ұсынылады. Суреттердің авторлық құқықтары мен
+          пайдалану шарттарын ескерген жөн.
+        </p>
+      </div>
+
+      
+<div class="notice">
+  <strong>ARCHEON — тарихи мұраны таныту жолында</strong>
+  <p>
+    Қазақстанның ежелгі тарихы мен археологиялық мұрасы —
+    ұрпақтан ұрпаққа жалғасатын құнды қазына.
+    Бұл жоба тарихи білімді кеңейтіп, өткенімізді тереңірек
+    тануға және мәдени мұрамызды бағалауға бағытталған.
+  </p>
+</div>
+
+
+      <div style="text-align:center">
+        <a class="back-button" href="index.html">
+          ← ARCHEON басты беті
+        </a>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <strong>ARCHEON</strong>
+    <p>Қазақстанның ежелгі тарихы мен археологиялық мұрасы</p>
+  </footer>
+
+</body>
+</html>

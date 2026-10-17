@@ -1,0 +1,255 @@
+ <!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARCHEON — Тарихи дәуірлер</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+      .era-page {
+      background: #11120f;
+      color: #f2e6ce;
+      padding: 25px 6%;
+    }
+
+    .era {
+      min-height: 150px;
+      margin-bottom: 20px;
+      padding: 25px 35px;
+      border: 1px solid #80663b;
+      border-radius: 10px;
+      background: linear-gradient(120deg, #29251c, #151510);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      scroll-margin-top: 100px;
+      transition: 0.3s;
+    }
+
+    .era:hover {
+      border-color: #e8c77e;
+      background: linear-gradient(120deg, #352c1c, #1c1a13);
+    }
+
+    .era-icon {
+      width: 75px;
+      height: 75px;
+      flex: 0 0 75px;
+      color: #e8c77e;
+    }
+
+    .era h2 {
+      color: #e8c77e;
+      font-size: clamp(25px, 4vw, 34px);
+      margin: 0;
+    }
+
+    .back-bar {
+  width: 100%;
+  padding: 10px 6%;
+  box-sizing: border-box;
+  background: #11120f;
+  border-bottom: 1px solid #b18a49 !important;
+    }
+
+    .back-bar .back-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 16px;
+      box-sizing: border-box;
+      background: #dfbb70;
+      border: 1px solid #f2d28b;
+      border-radius: 5px;
+      color: #17140e;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .back-bar .back-link:hover {
+      background: #edcc87;
+      border-color: #fff0c2;
+    }
+
+    @media (max-width: 600px) {
+      .era-page {
+        padding: 20px 5%;
+      }
+
+      .era {
+        min-height: 110px;
+        padding: 20px;
+        gap: 18px;
+      }
+
+      .era-icon {
+        width: 55px;
+        height: 55px;
+        flex-basis: 55px;
+      }
+
+      .era h2 {
+        font-size: 25px;
+      }
+
+      .back-bar {
+        padding: 10px 5%;
+      }
+
+      .era {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.era-arrow {
+  margin-left: auto;
+  color: #e8c77e;
+  font-size: 30px;
+  transition: transform 0.3s;
+}
+
+.era:hover .era-arrow {
+  transform: translateX(8px);
+}
+    }
+    </style>
+</head>
+
+<body>
+
+  
+
+    <div class="back-bar">
+    <a class="back-link" href="index.html">
+      ← Басты бетке оралу
+    </a>
+  </div>
+
+  <!-- ARCHEON басты баннері -->
+<section class="archeon-banner">
+    <img
+        src="banner.png"
+        alt="Қазақстанның ежелгі тарихы"
+        class="archeon-banner-image"
+    >
+</section>
+
+<!-- ARCHEON сайт таныстырылымы -->
+<section class="archeon-intro">
+    <p class="archeon-subtitle"> </p>
+
+    <h1 class="archeon-title"></h1>
+
+    <div class="archeon-divider"></div>
+
+    <p class="archeon-slogan">
+        Өткеннің ізі — болашақтың білімі.
+    </p>
+
+    <p class="archeon-description">
+        Қазақстанның ежелгі дәуірлерін, археологиялық
+        ескерткіштерін және тарихи мұрасын интерактивті
+        технологиялар арқылы зертте.
+    </p>
+</section>
+
+  <main class="era-page">
+
+    <a class="era" id="stone" href="stone.html">
+  <svg class="era-icon" viewBox="0 0 100 100" fill="none"
+       stroke="currentColor" stroke-width="3" aria-hidden="true">
+    <path d="M34 84 L26 62 L19 43 Q17 37 22 35 Q27 34 30 43
+    L35 54 L30 22 Q30 15 35 15 Q41 15 41 23 L44 48
+    L47 13 Q48 7 53 9 Q58 10 57 17 L56 47
+    L63 22 Q65 16 70 19 Q75 21 72 28 L66 54
+    L76 42 Q81 38 84 43 Q87 47 82 53 L67 75 Q62 85 52 87 Z"/>
+  </svg>
+  <h2>Тас дәуірі</h2>
+  <span class="era-arrow">→</span>
+</a>
+
+<a class="era" id="bronze" href="bronze.html">
+  <svg class="era-icon" viewBox="0 0 100 100" fill="none"
+       stroke="currentColor" stroke-width="3" aria-hidden="true">
+    <circle cx="50" cy="50" r="35"/>
+    <circle cx="50" cy="50" r="25"/>
+    <path d="M50 50 C67 50 67 32 52 32 C38 32 38 48 50 48
+    C59 48 59 39 52 39 M50 4 V13 M50 87 V96
+    M4 50 H13 M87 50 H96"/>
+  </svg>
+  <h2>Қола дәуірі</h2>
+  <span class="era-arrow">→</span>
+</a>
+
+<a class="era" id="iron" href="iron.html">
+  <svg class="era-icon" viewBox="0 0 100 100" fill="none"
+       stroke="currentColor" stroke-width="3" aria-hidden="true">
+    <path d="M12 55 L27 40 L38 22 L44 34 L56 25 L68 37
+    L85 35 L78 47 L87 54 L73 61 L64 74 L52 68
+    L42 82 L34 67 L19 68 Z"/>
+    <path d="M38 22 L34 10 L45 18 L56 25 M68 37 L75 22
+    L80 36 M27 40 L18 31 L19 47 M52 68 L56 53 L73 61"/>
+  </svg>
+  <h2>Темір дәуірі</h2>
+  <span class="era-arrow">→</span>
+</a>
+
+  </main>
+
+  <div class="iron-divider"></div>
+
+  <!-- ARCHEON зерттеу бөлімдері -->
+<section class="archeon-tools">
+
+    <a href="map.html" class="tool-card">
+        <span class="tool-icon">⌖</span>
+        <div class="tool-text">
+            <h2>Интерактивті карта</h2>
+            <p>Қазақстанның археологиялық ескерткіштерін зерттеу</p>
+        </div>
+        <span class="tool-arrow">→</span>
+    </a>
+
+    <a href="ai.html" class="tool-card">
+        <span class="tool-icon">✧</span>
+        <div class="tool-text">
+            <h2>Виртуалды көмекші</h2>
+            <p>Ежелгі тарих туралы сұрақтарға жауап алу</p>
+        </div>
+        <span class="tool-arrow">→</span>
+    </a>
+
+    <a href="reconstruction.html" class="tool-card">
+        <span class="tool-icon">◇</span>
+        <div class="tool-text">
+            <h2>3D реконструкция</h2>
+            <p>Археологиялық нысандардың үшөлшемді моделін көру</p>
+        </div>
+        <span class="tool-arrow">→</span>
+    </a>
+
+    <a href="adebietter.html" class="tool-card">
+        <span class="tool-icon">▤</span>
+        <div class="tool-text">
+            <h2>Пайдаланылған әдебиеттер</h2>
+            <p>Ғылыми еңбектер мен тарихи дереккөздер</p>
+        </div>
+        <span class="tool-arrow">→</span>
+    </a>
+
+</section>
+
+  <footer>
+    <a class="logo" href="index.html">⌁ ARCHEON</a>
+    <p>Қазақстанның ежелгі тарихын зерттеуге арналған білім беру жобасы.</p>
+    <span>© 2026 ARCHEON</span>
+
+
+  </footer>
+
+</body>
+</html>

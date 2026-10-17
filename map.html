@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHEON — Интерактивті карта</title>
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+:root {
+    --archeon-bg: #11110e;
+    --archeon-panel: #1c1a15;
+    --archeon-panel-light: #252219;
+    --archeon-gold: #e9bd68;
+    --archeon-gold-dark: #765b2d;
+    --archeon-text: #eee5d3;
+    --archeon-muted: #c6c0b4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--archeon-bg);
+    color: var(--archeon-text);
+}
+
+.top-line {
+    height: 3px;
+    background: var(--archeon-gold-dark);
+}
+
+.header {
+    min-height: 72px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 1px solid var(--archeon-gold-dark);
+    background: #11110e;
+}
+
+.logo {
+    color: var(--archeon-gold);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #b78a43;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 7px;
+    background: var(--archeon-gold);
+    color: #17140e;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.back:hover {
+    background: #f2d18a;
+    transform: translateY(-1px);
+}
+
+.page {
+    width: min(1400px, 88%);
+    margin: 0 auto;
+    padding: 42px 0 55px;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.eyebrow {
+    color: var(--archeon-gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    color: var(--archeon-gold);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(34px, 4vw, 48px);
+    line-height: 1.12;
+    margin: 0;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    max-width: 720px;
+    color: var(--archeon-muted);
+    line-height: 1.75;
+    margin-top: 13px;
+    font-size: 15px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 22px 0 15px;
+}
+
+.filter {
+    border: 1px solid var(--archeon-gold-dark);
+    background: #191811;
+    color: var(--archeon-gold);
+    padding: 11px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .4px;
+    transition: .2s ease;
+}
+
+.filter:hover,
+.filter.active {
+    background: var(--archeon-gold);
+    color: #17140e;
+    border-color: var(--archeon-gold);
+}
+
+.search {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    padding: 14px 17px;
+    border: 1px solid var(--archeon-gold-dark);
+    border-radius: 9px;
+    outline: none;
+    background: #1a1812;
+    color: var(--archeon-text);
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.search::placeholder {
+    color: #a69b85;
+}
+
+.search:focus {
+    border-color: var(--archeon-gold);
+    box-shadow: 0 0 0 3px rgba(233, 189, 104, .10);
+}
+
+.map-wrap {
+    position: relative;
+    width: 100%;
+    height: 650px;
+    border: 1px solid var(--archeon-gold-dark);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #1a1812;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    background: #d7d0c2;
+}
+
+.counter {
+    position: absolute;
+    z-index: 1000;
+    top: 15px;
+    right: 15px;
+    background: #17150f;
+    color: var(--archeon-gold);
+    border: 1px solid var(--archeon-gold-dark);
+    padding: 11px 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, .22);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    font-size: 13px;
+    color: var(--archeon-muted);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(233, 189, 104, .12);
+}
+
+.stone-dot {
+    background: #8b5a2b;
+}
+
+.bronze-dot {
+    background: #c47a25;
+}
+
+.iron-dot {
+    background: #333;
+    border: 1px solid #d5c7a9;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: #191811;
+    color: var(--archeon-text);
+}
+
+.leaflet-popup-content-wrapper {
+    border: 1px solid var(--archeon-gold-dark);
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    width: 290px !important;
+}
+
+.leaflet-popup-close-button {
+    color: var(--archeon-gold) !important;
+}
+
+.popup {
+    overflow: hidden;
+    background: #191811;
+    border-radius: 12px;
+}
+
+.popup img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+    display: block;
+    background: #252219;
+}
+
+.popup-body {
+    padding: 15px;
+}
+
+.popup-title {
+    color: var(--archeon-gold);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.popup-row {
+    margin: 6px 0;
+    color: var(--archeon-text);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.popup-row strong {
+    color: var(--archeon-gold);
+}
+
+.popup-description {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--archeon-gold-dark);
+    color: var(--archeon-muted);
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.marker {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid #f5e8c9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
+}
+
+.custom-marker {
+    background: transparent;
+    border: none;
+}
+
+.leaflet-control-zoom a {
+    background: #191811 !important;
+    color: var(--archeon-gold) !important;
+    border-color: var(--archeon-gold-dark) !important;
+}
+
+.leaflet-control-attribution {
+    background: rgba(17, 17, 14, .85) !important;
+    color: #c6c0b4 !important;
+}
+
+.leaflet-control-attribution a {
+    color: #d4ad62 !important;
+}
+
+footer {
+    margin-top: 42px;
+    padding: 25px 0 0;
+    border-top: 1px solid var(--archeon-gold-dark);
+    color: #a9a092;
+    font-size: 12px;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .header {
+        padding: 0 20px;
+    }
+
+    .page {
+        width: auto;
+        margin: 0;
+        padding: 30px 20px 40px;
+    }
+
+    .title-row {
+        display: block;
+    }
+
+    .map-wrap {
+        height: 550px;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo {
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+
+    .back {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .map-wrap {
+        height: 500px;
+        border-radius: 10px;
+    }
+
+    .filter {
+        padding: 9px 13px;
+        font-size: 11px;
+    }
+
+    .counter {
+        top: 10px;
+        right: 10px;
+        padding: 9px 11px;
+        font-size: 12px;
+    }
+
+    .leaflet-popup-content {
+        width: 250px !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-line"></div>
+
+<header class="header">
+    <div class="logo">ARCHEON<span>.</span></div>
+    <a href="explore.html" class="back">← АРТҚА</a>
+</header>
+
+<main class="page">
+
+    <div class="title-row">
+        <div>
+            <div class="eyebrow">01 / ARCHEON TOOLS</div>
+
+            <h1>Интерактивті карта.</h1>
+
+            <p class="subtitle">
+                Қазақстан аумағындағы тас, қола және темір дәуірлеріне
+                қатысты археологиялық ескерткіштер мен қоныстарды зертте.
+            </p>
+        </div>
+    </div>
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="Ескерткішті іздеу..."
+    >
+
+    <div class="controls">
+
+        <button class="filter active" data-era="all">
+            БАРЛЫҒЫ
+        </button>
+
+        <button class="filter" data-era="stone">
+            ТАС ДӘУІРІ
+        </button>
+
+        <button class="filter" data-era="bronze">
+            ҚОЛА ДӘУІРІ
+        </button>
+
+        <button class="filter" data-era="iron">
+            ТЕМІР ДӘУІРІ
+        </button>
+
+    </div>
+
+    <div class="map-wrap">
+
+        <div class="counter" id="counter">
+            60 нысан
+        </div>
+
+        <div id="map"></div>
+
+    </div>
+
+    <div class="legend">
+
+        <div class="legend-item">
+            <span class="dot stone-dot"></span>
+            Тас дәуірі
+        </div>
+
+        <div class="legend-item">
+            <span class="dot bronze-dot"></span>
+            Қола дәуірі
+        </div>
+
+        <div class="legend-item">
+            <span class="dot iron-dot"></span>
+            Темір дәуірі
+        </div>
+
+    </div>
+
+    <footer>
+        © ARCHEON — Digital Archaeology
+    </footer>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+/* =====================================================
+   КАРТА
+===================================================== */
+
+const map = L.map("map").setView([48.0196, 66.9237], 5);
+
+/* Google Maps-қа ұқсас көше картасы */
+
+L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    {
+        attribution: "Tiles © Esri",
+        maxZoom: 18
+    }
+).addTo(map);
+
+
+/* =====================================================
+   60 АРХЕОЛОГИЯЛЫҚ НЫСАН
+===================================================== */
+
+const sites = [
+
+/* =========================
+   ТАС ДӘУІРІ — 20
+========================= */
+
+{
+    name:"Бөріқазған",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Жамбыл облысы",
+    type:"Тұрақ",
+    description:"Ежелгі тас құралдары табылған палеолит дәуірінің маңызды археологиялық тұрағы.",
+    lat:43.15,
+    lng:71.20,
+    image:"tas.png"
+},
+
+{
+    name:"Тәңірқазған",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Жамбыл облысы",
+    type:"Тұрақ",
+    description:"Палеолит кезеңіне жататын тас құралдары кездесетін археологиялық ескерткіш.",
+    lat:43.25,
+    lng:71.35,
+    image:"tas.png"
+},
+
+{
+    name:"Шабақты",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Қаратау өңірі",
+    type:"Тұрақ",
+    description:"Қаратау жотасындағы ежелгі адамдардың тұрақтарының бірі.",
+    lat:43.30,
+    lng:70.95,
+    image:"tas.png"
+},
+
+{
+    name:"Арыстанды",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Түркістан облысы",
+    type:"Тұрақ",
+    description:"Палеолит дәуіріне жататын археологиялық тұрақ.",
+    lat:43.40,
+    lng:68.95,
+    image:"tas.png"
+},
+
+{
+    name:"Майбұлақ",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Алматы облысы",
+    type:"Тұрақ",
+    description:"Қазақстандағы кейінгі палеолит кезеңін зерттеуде маңызды ескерткіш.",
+    lat:43.35,
+    lng:76.75,
+    image:"tas.png"
+},
+
+{
+    name:"Қаратау тұрақтары",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Жамбыл облысы",
+    type:"Археологиялық кешен",
+    description:"Қаратау аймағында тас дәуіріне жататын көптеген тұрақтар орналасқан.",
+    lat:43.55,
+    lng:70.90,
+    image:"tas.png"
+},
+
+{
+    name:"Қызылтау",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Тұрақ",
+    description:"Ежелгі тас құралдары табылған археологиялық орын.",
+    lat:48.10,
+    lng:72.30,
+    image:"tas.png"
+},
+
+{
+    name:"Батпақ",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Тұрақ",
+    description:"Палеолит дәуірінің белгілі археологиялық ескерткіштерінің бірі.",
+    lat:48.35,
+    lng:73.20,
+    image:"tas.png"
+},
+
+{
+    name:"Семізбұғы",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Қарағанды облысы",
+    type:"Тұрақ",
+    description:"Тас құралдары мен өндіріс іздері зерттелген ежелгі тұрақ.",
+    lat:48.75,
+    lng:72.90,
+    image:"tas.png"
+},
+
+{
+    name:"Мұзбел",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Тұрақ",
+    description:"Тас дәуірінің археологиялық материалдары кездесетін орын.",
+    lat:48.55,
+    lng:71.85,
+    image:"tas.png"
+},
+
+{
+    name:"Шульбинка",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Шығыс Қазақстан",
+    type:"Тұрақ",
+    description:"Ертіс өңіріндегі тас дәуіріне қатысты археологиялық ескерткіш.",
+    lat:50.10,
+    lng:82.60,
+    image:"tas.png"
+},
+
+{
+    name:"Қарабас",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Қарағанды облысы",
+    type:"Тұрақ",
+    description:"Ежелгі адамның шаруашылығы мен тас индустриясын зерттеуге мүмкіндік береді.",
+    lat:49.70,
+    lng:73.10,
+    image:"tas.png"
+},
+
+{
+    name:"Ушбұлақ",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Жетісу",
+    type:"Тұрақ",
+    description:"Тас дәуірінің археологиялық материалдары зерттелген ескерткіш.",
+    lat:44.20,
+    lng:78.50,
+    image:"tas.png"
+},
+
+{
+    name:"Ақтоғай",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Қарағанды облысы",
+    type:"Тұрақ",
+    description:"Ежелгі тас құралдары кездесетін археологиялық орын.",
+    lat:47.95,
+    lng:75.10,
+    image:"tas.png"
+},
+
+{
+    name:"Құдайкөл",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Солтүстік Қазақстан",
+    type:"Тұрақ",
+    description:"Солтүстік Қазақстан аумағындағы тас дәуірі ескерткіштерінің бірі.",
+    lat:53.10,
+    lng:69.50,
+    image:"tas.png"
+},
+
+{
+    name:"Явленка",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Солтүстік Қазақстан",
+    type:"Тұрақ",
+    description:"Ежелгі тас құралдары табылған археологиялық орын.",
+    lat:54.35,
+    lng:68.40,
+    image:"tas.png"
+},
+
+{
+    name:"Қарағанды-15",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Қарағанды облысы",
+    type:"Тұрақ",
+    description:"Орталық Қазақстандағы тас дәуіріне қатысты археологиялық нысан.",
+    lat:49.85,
+    lng:73.10,
+    image:"tas.png"
+},
+
+{
+    name:"Шақпақата",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Маңғыстау",
+    type:"Тұрақ",
+    description:"Маңғыстау аумағындағы ежелгі тас индустриясына қатысты ескерткіш.",
+    lat:44.40,
+    lng:51.20,
+    image:"tas.png"
+},
+
+{
+    name:"Қосқорған",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Түркістан облысы",
+    type:"Тұрақ",
+    description:"Қазақстанның оңтүстігіндегі палеолит ескерткіштерінің бірі.",
+    lat:42.95,
+    lng:68.20,
+    image:"tas.png"
+},
+
+{
+    name:"Ақсу-Аюлы",
+    era:"stone",
+    eraName:"Тас дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Археологиялық орын",
+    description:"Орталық Қазақстандағы ежелгі дәуір материалдары зерттелген аймақ.",
+    lat:48.95,
+    lng:75.00,
+    image:"tas.png"
+},
+
+
+/* =========================
+   ҚОЛА ДӘУІРІ — 20
+========================= */
+
+{
+    name:"Беғазы",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Қарағанды облысы",
+    type:"Қорым",
+    description:"Беғазы-Дәндібай мәдениетінің аса маңызды ескерткіштерінің бірі.",
+    lat:48.35,
+    lng:75.45,
+    image:"kola.png"
+},
+
+{
+    name:"Дәндібай",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Қоныс",
+    description:"Кейінгі қола дәуіріндегі Дәндібай мәдениетімен байланысты археологиялық орын.",
+    lat:48.30,
+    lng:75.20,
+    image:"kola.png"
+},
+
+{
+    name:"Кент",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Қарағанды облысы",
+    type:"Қоныс",
+    description:"Орталық Қазақстандағы ірі қола дәуірі қоныстарының бірі.",
+    lat:48.15,
+    lng:76.10,
+    image:"kola.png"
+},
+
+{
+    name:"Атасу",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Қарағанды облысы",
+    type:"Қоныс",
+    description:"Қола дәуіріндегі металлургия мен қоныстану тарихын зерттеуде маңызды орын.",
+    lat:48.40,
+    lng:73.80,
+    image:"kola.png"
+},
+
+{
+    name:"Петровка II",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Солтүстік Қазақстан",
+    type:"Қоныс",
+    description:"Солтүстік Қазақстандағы ерте қола дәуіріне қатысты қоныс.",
+    lat:54.85,
+    lng:69.10,
+    image:"kola.png"
+},
+
+{
+    name:"Алексеевка",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Қостанай облысы",
+    type:"Қоныс",
+    description:"Солтүстік Қазақстан мен Торғай өңіріндегі қола дәуірі ескерткіші.",
+    lat:52.65,
+    lng:62.60,
+    image:"kola.png"
+},
+
+{
+    name:"Сарғары",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Қоныс",
+    description:"Соңғы қола дәуірінің мәдени ескерткіштерінің бірі.",
+    lat:49.10,
+    lng:73.80,
+    image:"kola.png"
+},
+
+{
+    name:"Талдысай",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Ұлытау өңірі",
+    type:"Металлургиялық қоныс",
+    description:"Ежелгі металл өндіру мен өңдеуге байланысты маңызды археологиялық кешен.",
+    lat:47.95,
+    lng:67.95,
+    image:"kola.png"
+},
+
+{
+    name:"Мыржық",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Қоныс",
+    description:"Қола дәуірінің қоныстары мен өндірістік орындары зерттелген аймақ.",
+    lat:48.60,
+    lng:74.20,
+    image:"kola.png"
+},
+
+{
+    name:"Андроновка",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Солтүстік Қазақстан",
+    type:"Қоныс",
+    description:"Андрон мәдени-тарихи қауымдастығымен байланысты археологиялық орын.",
+    lat:53.80,
+    lng:68.80,
+    image:"kola.png"
+},
+
+{
+    name:"Новоникольск I",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Солтүстік Қазақстан",
+    type:"Қоныс",
+    description:"Қола дәуіріндегі Солтүстік Қазақстан археологиялық ескерткіштерінің бірі.",
+    lat:54.20,
+    lng:69.50,
+    image:"kola.png"
+},
+
+{
+    name:"Амангелді I",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Солтүстік Қазақстан",
+    type:"Қоныс",
+    description:"Қола дәуірінің қоныстық мәдениетін зерттеуге мүмкіндік беретін ескерткіш.",
+    lat:54.00,
+    lng:70.10,
+    image:"kola.png"
+},
+
+{
+    name:"Қарғалы",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Алматы облысы",
+    type:"Қорым",
+    description:"Жетісу аумағындағы қола дәуірі археологиялық орындарының бірі.",
+    lat:43.40,
+    lng:77.10,
+    image:"kola.png"
+},
+
+{
+    name:"Қараүңгір",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Түркістан облысы",
+    type:"Тұрақ",
+    description:"Оңтүстік Қазақстандағы ежелгі дәуірлерді зерттеуге мүмкіндік беретін археологиялық орын.",
+    lat:42.95,
+    lng:69.70,
+    image:"kola.png"
+},
+
+{
+    name:"Таңбалы",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Алматы облысы",
+    type:"Петроглифтер кешені",
+    description:"Қола дәуірінен басталатын мыңдаған жартас суреттері бар археологиялық ландшафт.",
+    lat:43.80,
+    lng:76.50,
+    image:"kola.png"
+},
+
+{
+    name:"Ақсу-Аюлы II",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Қорым",
+    description:"Қола дәуіріндегі жерлеу құрылыстарымен байланысты археологиялық ескерткіш.",
+    lat:49.00,
+    lng:74.80,
+    image:"kola.png"
+},
+
+{
+    name:"Бесоба",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Қорым",
+    description:"Қола дәуіріне жататын жерлеу ескерткіштерінің бірі.",
+    lat:48.70,
+    lng:73.90,
+    image:"kola.png"
+},
+
+{
+    name:"Молалы",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Жетісу",
+    type:"Қорым",
+    description:"Жетісудағы қола дәуірі мәдениетіне қатысты археологиялық кешен.",
+    lat:44.10,
+    lng:78.00,
+    image:"kola.png"
+},
+
+{
+    name:"Ақсу",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Шығыс Қазақстан",
+    type:"Қоныс",
+    description:"Шығыс Қазақстандағы қола дәуірі ескерткіштерінің бірі.",
+    lat:49.90,
+    lng:82.20,
+    image:"kola.png"
+},
+
+{
+    name:"Көкшетау маңы",
+    era:"bronze",
+    eraName:"Қола дәуірі",
+    region:"Ақмола облысы",
+    type:"Археологиялық орын",
+    description:"Сарыарқа мен Солтүстік Қазақстан арасындағы қола дәуірі ескерткіштері таралған өңір.",
+    lat:53.30,
+    lng:69.40,
+    image:"kola.png"
+},
+
+
+/* =========================
+   ТЕМІР ДӘУІРІ — 20
+========================= */
+
+{
+    name:"Есік қорғаны",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Алматы облысы",
+    type:"Қорған",
+    description:"Сақ дәуірінің аса белгілі патша қорғандарының бірі.",
+    lat:43.35,
+    lng:77.45,
+    image:"temir.png"
+},
+
+{
+    name:"Бесшатыр",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Алматы облысы",
+    type:"Қорғандар кешені",
+    description:"Іле аңғарындағы сақ дәуірінің ірі қорғандар кешені.",
+    lat:43.95,
+    lng:77.55,
+    image:"temir.png"
+},
+
+{
+    name:"Шілікті",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Шығыс Қазақстан",
+    type:"Қорғандар кешені",
+    description:"Шығыс Қазақстандағы ерте сақ дәуірінің аса маңызды археологиялық кешені.",
+    lat:48.15,
+    lng:84.05,
+    image:"temir.png"
+},
+
+{
+    name:"Берел",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Шығыс Қазақстан",
+    type:"Қорым",
+    description:"Сақ дәуірінің жерлеу ескерткіштерімен және органикалық заттардың сақталуымен белгілі.",
+    lat:49.40,
+    lng:86.35,
+    image:"temir.png"
+},
+
+{
+    name:"Тасмола",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Орталық Қазақстан",
+    type:"Қорым",
+    description:"Орталық Қазақстандағы ерте темір дәуірінің Тасмола мәдениетіне атау берген ескерткіш.",
+    lat:49.00,
+    lng:72.80,
+    image:"temir.png"
+},
+
+{
+    name:"Мұртты қорғандар",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Сарыарқа",
+    type:"Қорғандар кешені",
+    description:"Тасмола мәдениетіне тән ерекше жерлеу және ғұрыптық құрылыстар.",
+    lat:48.80,
+    lng:73.40,
+    image:"temir.png"
+},
+
+{
+    name:"Боралдай сақ қорғандары",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Алматы қаласы маңы",
+    type:"Қорғандар кешені",
+    description:"Алматы маңындағы сақ дәуіріне жататын ірі қорғандар тобы.",
+    lat:43.25,
+    lng:76.70,
+    image:"temir.png"
+},
+
+{
+    name:"Аралтөбе",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Атырау облысы",
+    type:"Қорған",
+    description:"Батыс Қазақстандағы сармат дәуіріне қатысты белгілі археологиялық ескерткіш.",
+    lat:47.00,
+    lng:51.70,
+    image:"temir.png"
+},
+
+{
+    name:"Тақсай",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Батыс Қазақстан",
+    type:"Қорым",
+    description:"Сармат кезеңінің бай жерлеу кешені.",
+    lat:51.10,
+    lng:50.20,
+    image:"temir.png"
+},
+
+{
+    name:"Ұйғарақ",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Қызылорда облысы",
+    type:"Қорым",
+    description:"Арал маңы сақ-сармат кезеңінің маңызды археологиялық ескерткіші.",
+    lat:46.10,
+    lng:61.10,
+    image:"temir.png"
+},
+
+{
+    name:"Түгіскен",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Қызылорда облысы",
+    type:"Қорым",
+    description:"Сырдарияның төменгі ағысындағы ежелгі жерлеу кешені.",
+    lat:45.80,
+    lng:62.20,
+    image:"temir.png"
+},
+
+{
+    name:"Арал-асар",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Қызылорда облысы",
+    type:"Қоныс",
+    description:"Арал маңындағы ежелгі қоныстану тарихын зерттеуге мүмкіндік береді.",
+    lat:46.00,
+    lng:61.50,
+    image:"temir.png"
+},
+
+{
+    name:"Шірік-Рабат",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Қызылорда облысы",
+    type:"Қала-қоныс",
+    description:"Сырдың төменгі ағысындағы ежелгі бекіністі қоныстар кешенінің бірі.",
+    lat:44.10,
+    lng:61.20,
+    image:"temir.png"
+},
+
+{
+    name:"Бәбіш-Молда",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Қызылорда облысы",
+    type:"Қоныс",
+    description:"Арал маңының темір дәуіріндегі дамыған қоныстарының бірі.",
+    lat:44.20,
+    lng:61.50,
+    image:"temir.png"
+},
+
+{
+    name:"Ақтау қорғандары",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Жетісу",
+    type:"Қорған",
+    description:"Жетісу аймағындағы сақ дәуірі жерлеу ескерткіштері.",
+    lat:43.90,
+    lng:77.00,
+    image:"temir.png"
+},
+
+{
+    name:"Қарғалы диадемасы табылған қорым",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Алматы облысы",
+    type:"Қорым",
+    description:"Жетісу өңіріндегі сақ кезеңінің бай археологиялық кешендерінің бірі.",
+    lat:43.45,
+    lng:77.15,
+    image:"temir.png"
+},
+
+{
+    name:"Майәмір",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Шығыс Қазақстан",
+    type:"Қорым",
+    description:"Ерте темір дәуірінің Шығыс Қазақстандағы мәдени ескерткіштерінің бірі.",
+    lat:48.90,
+    lng:83.20,
+    image:"temir.png"
+},
+
+{
+    name:"Қырықоба",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Батыс Қазақстан",
+    type:"Қорғандар кешені",
+    description:"Батыс Қазақстандағы ерте темір дәуірінің ірі жерлеу кешені.",
+    lat:51.30,
+    lng:51.90,
+    image:"temir.png"
+},
+
+{
+    name:"Сынтас",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Батыс Қазақстан",
+    type:"Қорым",
+    description:"Сармат дәуіріне жататын археологиялық жерлеу ескерткіші.",
+    lat:50.90,
+    lng:52.10,
+    image:"temir.png"
+},
+
+{
+    name:"Ақбауыр",
+    era:"iron",
+    eraName:"Темір дәуірі",
+    region:"Шығыс Қазақстан",
+    type:"Археологиялық кешен",
+    description:"Шығыс Қазақстандағы ежелгі мәдениеттердің іздері сақталған археологиялық орын.",
+    lat:49.90,
+    lng:82.50,
+    image:"temir.png"
+}
+
+];
+
+
+/* =====================================================
+   МАРКЕРЛЕР
+===================================================== */
+
+let markers = [];
+
+function getColor(era){
+
+    if(era === "stone"){
+        return "#8b5a2b";
+    }
+
+    if(era === "bronze"){
+        return "#c47a25";
+    }
+
+    return "#333";
+}
+
+
+function createMarker(site){
+
+    const icon = L.divIcon({
+
+        className:"custom-marker",
+
+        html:
+            `<div class="marker"
+            style="background:${getColor(site.era)}"></div>`,
+
+        iconSize:[18,18],
+
+        iconAnchor:[9,9]
+
+    });
+
+
+    const marker = L.marker(
+        [site.lat, site.lng],
+        {icon:icon}
+    );
+
+
+    const popup = `
+
+        <div class="popup">
+
+            <img
+                src="${site.image}"
+                onerror="this.src='archeon.png'"
+            >
+
+            <div class="popup-body">
+
+                <div class="popup-title">
+                    ${site.name}
+                </div>
+
+                <div class="popup-row">
+                    <strong>Дәуірі:</strong>
+                    ${site.eraName}
+                </div>
+
+                <div class="popup-row">
+                    <strong>Өңірі:</strong>
+                    ${site.region}
+                </div>
+
+                <div class="popup-row">
+                    <strong>Ескерткіш түрі:</strong>
+                    ${site.type}
+                </div>
+
+                <div class="popup-description">
+                    ${site.description}
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+    marker.bindPopup(popup);
+
+    marker.siteData = site;
+
+    return marker;
+}
+
+
+/* =====================================================
+   БАРЛЫҚ МАРКЕРЛЕРДІ ҚОСУ
+===================================================== */
+
+sites.forEach(site => {
+
+    const marker = createMarker(site);
+
+    markers.push(marker);
+
+    marker.addTo(map);
+
+});
+
+
+/* =====================================================
+   ФИЛЬТР
+===================================================== */
+
+let currentEra = "all";
+
+const filterButtons =
+    document.querySelectorAll(".filter");
+
+
+filterButtons.forEach(button => {
+
+    button.addEventListener("click", function(){
+
+        filterButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        this.classList.add("active");
+
+        currentEra = this.dataset.era;
+
+        updateMap();
+
+    });
+
+});
+
+
+/* =====================================================
+   ІЗДЕУ + ФИЛЬТР
+===================================================== */
+
+const searchInput =
+    document.getElementById("search");
+
+
+searchInput.addEventListener("input", updateMap);
+
+
+function updateMap(){
+
+    const query =
+        searchInput.value
+            .toLowerCase()
+            .trim();
+
+
+    let visibleCount = 0;
+
+
+    markers.forEach(marker => {
+
+        const site = marker.siteData;
+
+
+        const eraMatch =
+            currentEra === "all" ||
+            site.era === currentEra;
+
+
+        const text =
+            (
+                site.name +
+                " " +
+                site.region +
+                " " +
+                site.type
+            ).toLowerCase();
+
+
+        const searchMatch =
+            text.includes(query);
+
+
+        if(eraMatch && searchMatch){
+
+            if(!map.hasLayer(marker)){
+                marker.addTo(map);
+            }
+
+            visibleCount++;
+
+        }else{
+
+            if(map.hasLayer(marker)){
+                map.removeLayer(marker);
+            }
+
+        }
+
+    });
+
+
+    document.getElementById("counter").textContent =
+        visibleCount + " нысан";
+
+}
+
+
+/* =====================================================
+   ESC — POPUP ЖАБУ
+===================================================== */
+
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+        map.closePopup();
+    }
+
+});
+
+
+</script>
+
+</body>
+</html>

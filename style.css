@@ -1,0 +1,494 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #11120f;
+  color: #f5ead5;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Жоғарғы мәзір */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 5%;
+  background: #11120f;
+  border-bottom: 1px solid #39352b;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-family: Georgia, serif;
+  color: #e5c37d;
+  font-size: 27px;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-size: 13px;
+  color: #e5dfd3;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #e5c37d;
+}
+
+/* Басты баннер */
+
+.hero {
+  min-height: 430px;
+  padding: 75px 7%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10, 11, 9, 0.96),
+      rgba(10, 11, 9, 0.55)
+    ),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.eyebrow {
+  color: #e5c37d;
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-bottom: 15px;
+}
+
+.hero h1 {
+  color: #f2d69a;
+  font-family: Georgia, serif;
+  font-size: clamp(55px, 8vw, 90px);
+  letter-spacing: 5px;
+  line-height: 1.1;
+}
+
+.hero h2 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(19px, 3vw, 27px);
+  margin: 12px 0;
+}
+
+.hero > p:not(.eyebrow) {
+  color: #d4d0c6;
+  max-width: 580px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 13px 23px;
+  background: #d9b66d;
+  color: #17140e;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #f0d99f;
+  transform: translateY(-2px);
+}
+
+/* Тарихи кезеңдер */
+
+.periods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  padding: 25px 4%;
+}
+
+.card {
+  padding: 30px 24px;
+  min-height: 170px;
+  background: linear-gradient(135deg, #292820, #181914);
+  border: 1px solid #514633;
+  border-radius: 9px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  border-color: #d9b66d;
+  transform: translateY(-4px);
+}
+
+.card h2 {
+  color: #f0d8a4;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: #d1ccc1;
+  font-size: 14px;
+}
+
+/* Ескерткіштер */
+
+.sites {
+  padding: 45px 4%;
+  background: #f3ead8;
+  color: #211e18;
+}
+
+.sites > h2 {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.site-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.site-grid article {
+  padding: 25px;
+  background: #fffaf0;
+  border: 1px solid #ddceb0;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.site-grid article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px #00000012;
+}
+
+.site-grid h3 {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.site-grid p {
+  color: #61594b;
+  font-size: 14px;
+}
+
+/* Төменгі бөлім */
+
+footer {
+  text-align: center;
+  padding: 35px 20px;
+  background: #11120f;
+  color: #c5bfb2;
+}
+
+footer h2 {
+  color: #e5c37d;
+  font-family: Georgia, serif;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+
+footer p {
+  font-size: 13px;
+}
+
+/* Телефон мен шағын экрандарға бейімдеу */
+
+@media (max-width: 850px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .periods {
+    grid-template-columns: 1fr;
+  }
+
+  .site-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: 400px;
+    padding: 45px 6%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 22px;
+  }
+
+  nav {
+    gap: 12px;
+  }
+
+  nav a {
+    font-size: 12px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .sites > h2 {
+    font-size: 27px;
+  }
+}
+/* ARCHEON баннерін түзету */
+.archeon-banner {
+    width: 100%;
+    max-width: 100%;
+    height: 220px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    background: #11110e;
+    border-bottom: 1px solid #765b2d;
+    box-sizing: border-box;
+}
+
+.archeon-banner-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+}
+
+/* Экраннан көлденең шығып кетпеу */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+    .archeon-banner {
+        height: 150px;
+    }
+}
+
+/* ARCHEON таныстырылым бөлімі */
+.archeon-intro {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 20px 34px;
+    text-align: center;
+    background: #11110e;
+}
+
+.archeon-subtitle {
+    margin: 0 0 8px;
+    color: #c7a15c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    font-weight: 500;
+}
+
+.archeon-title {
+    margin: 0;
+    color: #e9bd68;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(34px, 4vw, 48px);
+    font-weight: 600;
+    letter-spacing: 7px;
+}
+
+.archeon-divider {
+    width: 76px;
+    height: 1px;
+    margin: 15px auto;
+    background: #9b7539;
+}
+
+.archeon-slogan {
+    margin: 0 0 12px;
+    color: #e9bd68;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    font-style: italic;
+}
+
+.archeon-description {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #c6c0b4;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .archeon-intro {
+        padding: 24px 18px 28px;
+    }
+
+    .archeon-subtitle {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .archeon-title {
+        letter-spacing: 5px;
+    }
+
+    .archeon-slogan {
+        font-size: 17px;
+    }
+}
+
+/* Темір дәуірі бөлімінен кейінгі алтын сызық */
+.iron-divider {
+    width: 100%;
+    height: 1px;
+    background: #765b2d;
+    margin-top: 38px;
+}
+
+/* ARCHEON — төрт зерттеу бөлімі */
+.archeon-tools {
+    width: min(1400px, 90%);
+    margin: 38px auto 60px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.tool-card {
+    min-height: 150px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 28px 30px;
+
+    background: linear-gradient(
+        135deg,
+        #252219,
+        #15140f
+    );
+
+    border: 1px solid #765b2d;
+    border-radius: 12px;
+    color: #e9bd68;
+    text-decoration: none;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-4px);
+    border-color: #e9bd68;
+    background: linear-gradient(
+        135deg,
+        #30291b,
+        #1a1812
+    );
+}
+
+.tool-icon {
+    flex-shrink: 0;
+    width: 48px;
+    text-align: center;
+    color: #e9bd68;
+    font-family: Georgia, serif;
+    font-size: 44px;
+}
+
+.tool-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.tool-text h2 {
+    margin: 0 0 10px;
+    color: #e9bd68;
+    font-size: 21px;
+    line-height: 1.4;
+}
+
+.tool-text p {
+    margin: 0;
+    color: #c6c0b4;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.tool-arrow {
+    flex-shrink: 0;
+    color: #e9bd68;
+    font-size: 25px;
+    transition: transform 0.25s ease;
+}
+
+.tool-card:hover .tool-arrow {
+    transform: translateX(5px);
+}
+
+/* Телефонда бір баған */
+@media (max-width: 700px) {
+    .archeon-tools {
+        width: 90%;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-top: 28px;
+    }
+
+    .tool-card {
+        min-height: 125px;
+        padding: 22px 18px;
+        gap: 14px;
+    }
+
+    .tool-icon {
+        width: 35px;
+        font-size: 34px;
+    }
+
+    .tool-text h2 {
+        font-size: 17px;
+    }
+
+    .tool-text p {
+        font-size: 12px;
+    }
+}
